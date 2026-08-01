@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/navbar";
+import Footer from "./components/footer";
 
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
@@ -23,8 +24,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
-
+      <Footer />
     </BrowserRouter>
+    
   );
 }
 

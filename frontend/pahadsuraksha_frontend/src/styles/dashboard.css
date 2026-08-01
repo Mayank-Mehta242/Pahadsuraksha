@@ -1,0 +1,189 @@
+body{
+    margin:0;
+    padding:0;
+    font-family:'Poppins',sans-serif;
+    background:#f4f7fb;
+}
+
+.dashboard{
+    max-width:1200px;
+    margin:40px auto;
+    padding:20px;
+}
+
+.dashboard h1{
+    text-align:center;
+    color:#1B4332;
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+.dashboard>p{
+    text-align:center;
+    color:#666;
+    margin-bottom:40px;
+    font-size:18px;
+}
+
+.route-card,
+.weather-card,
+.prediction-card,
+.recommendation-card{
+    background:#fff;
+    border-radius:18px;
+    padding:30px;
+    margin-bottom:30px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.route-card h2,
+.weather-card h2,
+.prediction-card h2,
+.recommendation-card h2{
+    color:#1B4332;
+    margin-bottom:25px;
+}
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:20px;
+}
+
+.input-group label{
+    font-weight:600;
+    margin-bottom:8px;
+    color:#333;
+}
+
+.input-group input{
+    padding:15px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:16px;
+    transition:.3s;
+}
+
+.input-group input:focus{
+    outline:none;
+    border-color:#2E7D32;
+    box-shadow:0 0 8px rgba(46,125,50,.25);
+}
+
+.check-btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#2E7D32;
+    color:white;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.check-btn:hover{
+    background:#1B5E20;
+    transform:translateY(-2px);
+}
+
+.weather-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+}
+
+.weather-grid div{
+    background:#E8F5E9;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    transition:.3s;
+}
+
+.weather-grid div:hover{
+    transform:translateY(-5px);
+    box-shadow:0 6px 16px rgba(0,0,0,.1);
+}
+
+.weather-grid h4{
+    color:#2E7D32;
+    margin-bottom:10px;
+}
+
+.weather-grid p{
+    font-size:20px;
+    font-weight:600;
+    color:#333;
+}
+
+.risk-box{
+    width:180px;
+    height:180px;
+    margin:30px auto;
+    border-radius:50%;
+    background:#FFF3CD;
+    border:8px solid #FFC107;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:34px;
+    font-weight:bold;
+    color:#D97706;
+}
+
+.recommendation-card p{
+    font-size:18px;
+    line-height:1.8;
+    color:#444;
+    background:#F8F9FA;
+    padding:20px;
+    border-left:5px solid #2E7D32;
+    border-radius:10px;
+}
+
+@media(max-width:768px){
+
+    .dashboard{
+        padding:15px;
+    }
+
+    .dashboard h1{
+        font-size:30px;
+    }
+
+    .dashboard>p{
+        font-size:16px;
+    }
+
+    .route-card,
+    .weather-card,
+    .prediction-card,
+    .recommendation-card{
+        padding:20px;
+    }
+
+    .risk-box{
+        width:140px;
+        height:140px;
+        font-size:28px;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .weather-grid{
+        grid-template-columns:1fr;
+    }
+
+    .dashboard h1{
+        font-size:26px;
+    }
+
+    .check-btn{
+        font-size:16px;
+    }
+
+}

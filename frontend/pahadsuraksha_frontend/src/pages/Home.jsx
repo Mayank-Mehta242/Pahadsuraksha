@@ -8,7 +8,7 @@ function Home() {
 
         <div className="live-status">
           <span className="live-dot"></span>
-          <span>LIVE MONITORING ACROSS 13 DISTRICTS</span>
+          <span>LIVE MONITORING ACROSS Tehri</span>
         </div>
 
         <h1>
@@ -16,7 +16,7 @@ function Home() {
         </h1>
 
         <p>
-          PahadSuraksha combines rainfall telemetry, terrain slope, soil saturation, and historical incident data to give citizens, travellers, and district authorities an early, explainable warning across Uttarakhand.
+          PahadSuraksha combines rainfall telemetry, terrain slope, soil saturation, and historical incident data to give Drivers and district authorities an early, explainable warning across Tehri.
         </p>
 
         <div className="hero-buttons">

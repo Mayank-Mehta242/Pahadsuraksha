@@ -1,0 +1,898 @@
+*,
+*::before,
+*::after{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#eef5ef;
+    color:#222;
+}
+
+.weather-page{
+    width:100%;
+    max-width:1400px;
+    margin:auto;
+    padding:25px;
+}
+
+/* ==========================================
+                HEADER
+========================================== */
+
+.weather-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.weather-header h1{
+    font-size:42px;
+    color:#1B4332;
+    margin-bottom:10px;
+}
+
+.weather-header p{
+    font-size:18px;
+    color:#666;
+}
+
+/* ==========================================
+                SEARCH BAR
+========================================== */
+
+.search-card{
+    width:100%;
+
+    display:flex;
+    flex-wrap:wrap;
+
+    justify-content:center;
+    align-items:center;
+
+    gap:15px;
+
+    background:white;
+
+    padding:22px;
+
+    border-radius:18px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    margin-bottom:30px;
+}
+
+.search-card input{
+
+    flex:1;
+
+    min-width:250px;
+
+    padding:15px;
+
+    border:2px solid #d9e7d8;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+.search-card input:focus{
+
+    border-color:#2E7D32;
+
+    box-shadow:0 0 12px rgba(46,125,50,.2);
+
+}
+
+.search-card button{
+
+    padding:15px 28px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2E7D32;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.search-card button:hover{
+
+    background:#1B4332;
+
+}
+
+/* ==========================================
+            FIRST ROW
+========================================== */
+
+.top-row{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:25px;
+
+    margin-bottom:30px;
+
+}
+
+.left-column{
+
+    flex:1;
+
+    min-width:320px;
+
+}
+
+.right-column{
+
+    flex:1.2;
+
+    min-width:320px;
+
+}
+
+/* ==========================================
+            CURRENT WEATHER
+========================================== */
+
+.current-weather{
+
+    background:white;
+
+    height:100%;
+
+    padding:35px;
+
+    border-radius:18px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    text-align:center;
+
+    min-height:320px;
+}
+
+.current-weather h2{
+
+    color:#1B4332;
+
+    font-size:34px;
+
+    margin-bottom:15px;
+
+}
+
+.weather-icon{
+
+    font-size:75px;
+
+    margin:20px 0;
+
+}
+
+.current-weather h3{
+
+    font-size:24px;
+
+    color:#555;
+
+}
+
+.current-weather h1{
+
+    font-size:60px;
+
+    color:#2E7D32;
+
+    margin:15px 0;
+
+}
+
+.current-weather p{
+
+    color:#666;
+
+    margin-top:8px;
+
+    font-size:17px;
+
+}
+/* ==========================================
+            WEATHER DETAILS
+========================================== */
+
+.weather-details{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    height:100%;
+
+    align-items:stretch;
+}
+
+.detail-card{
+
+    flex:1 1 180px;
+
+    min-width:180px;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    text-align:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.detail-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+
+}
+
+.detail-card h3{
+
+    color:#1B4332;
+
+    font-size:19px;
+
+    margin-bottom:15px;
+
+}
+
+.detail-card p{
+
+    font-size:24px;
+
+    font-weight:600;
+
+    color:#2E7D32;
+
+}
+
+/* ==========================================
+            SECOND ROW
+========================================== */
+
+.second-row{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:25px;
+
+    margin-bottom:30px;
+
+}
+
+/* ==========================================
+            ROAD SAFETY
+========================================== */
+
+.road-status{
+
+    flex:1;
+
+    min-width:320px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.road-status h2{
+
+    color:#1B4332;
+
+    margin-bottom:25px;
+
+    text-align:center;
+
+}
+
+.status-box{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    width:220px;
+
+    height:60px;
+
+    margin:0 auto 20px;
+
+    border-radius:40px;
+
+    color:white;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+}
+
+.road-status p{
+
+    color:#666;
+
+    text-align:center;
+
+    line-height:1.8;
+
+    font-size:17px;
+
+}
+
+/* ==========================================
+        AI RECOMMENDATION
+========================================== */
+
+.recommendation-section{
+
+    flex:1;
+
+    min-width:320px;
+
+}
+
+.recommendation-section h2{
+
+    color:#1B4332;
+
+    margin-bottom:20px;
+
+    text-align:center;
+
+}
+
+.recommendation-card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:30px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    height:100%;
+
+    min-height:320px;
+
+    transition:.3s;
+
+}
+
+.recommendation-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+
+}
+
+.recommendation-status{
+
+    display:inline-block;
+
+    background:#F9A825;
+
+    color:white;
+
+    padding:12px 22px;
+
+    border-radius:25px;
+
+    font-size:20px;
+
+    font-weight:600;
+
+    margin-bottom:20px;
+
+}
+
+.recommendation-card p{
+
+    color:#555;
+
+    line-height:1.8;
+
+    margin-bottom:20px;
+
+}
+
+.recommendation-card ul{
+
+    list-style:none;
+
+    padding:0;
+
+}
+
+.recommendation-card li{
+
+    padding:15px;
+
+    margin-bottom:12px;
+
+    background:#F4FBF5;
+
+    border-left:5px solid #2E7D32;
+
+    border-radius:10px;
+
+    color:#1B4332;
+
+    transition:.3s;
+
+}
+
+.recommendation-card li:hover{
+
+    background:#E8F5E9;
+
+    transform:translateX(5px);
+
+}
+/* ==========================================
+            HOURLY FORECAST
+========================================== */
+
+.hourly-section{
+
+    width:100%;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:30px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    margin-bottom:30px;
+
+}
+
+.hourly-section h2{
+
+    color:#1B4332;
+
+    margin-bottom:25px;
+
+    text-align:center;
+
+}
+
+.hourly-container{
+
+    display:flex;
+
+    gap:18px;
+
+    overflow-x:auto;
+
+    padding-bottom:12px;
+
+    scroll-behavior:smooth;
+
+}
+
+.hourly-container::-webkit-scrollbar{
+
+    height:8px;
+
+}
+
+.hourly-container::-webkit-scrollbar-thumb{
+
+    background:#2E7D32;
+
+    border-radius:20px;
+
+}
+
+.hour-card{
+
+    flex:0 0 130px;
+
+    background:#F5FBF5;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    text-align:center;
+
+    transition:.3s;
+
+}
+
+.hour-card:hover{
+
+    transform:translateY(-5px);
+
+    background:#E8F5E9;
+
+}
+
+.hour-card h3{
+
+    color:#1B4332;
+
+    margin-bottom:10px;
+
+}
+
+.hour-card p{
+
+    margin:8px 0;
+
+    font-size:18px;
+
+}
+
+/* ==========================================
+            WEEKLY FORECAST
+========================================== */
+
+.weekly-section{
+
+    width:100%;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:30px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    margin-bottom:30px;
+
+}
+
+.weekly-section h2{
+
+    color:#1B4332;
+
+    margin-bottom:25px;
+
+    text-align:center;
+
+}
+
+.week-grid{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    gap:18px;
+
+}
+
+.day-card{
+
+    flex:1 1 120px;
+
+    max-width:140px;
+
+    background:#F5FBF5;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    text-align:center;
+
+    transition:.3s;
+
+}
+
+.day-card:hover{
+
+    background:#E8F5E9;
+
+    transform:translateY(-5px);
+
+}
+
+.day-card h3{
+
+    color:#1B4332;
+
+    margin-bottom:10px;
+
+}
+
+.day-card p{
+
+    margin:6px 0;
+
+    font-size:18px;
+
+}
+
+/* ==========================================
+            WEATHER ALERTS
+========================================== */
+
+.alerts-section{
+
+    width:100%;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:30px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    margin-bottom:30px;
+
+}
+
+.alerts-section h2{
+
+    color:#1B4332;
+
+    margin-bottom:20px;
+
+    text-align:center;
+
+}
+
+.alerts-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+.alert-card{
+
+    background:#FFF3CD;
+
+    border-left:6px solid #F9A825;
+
+    padding:18px;
+
+    border-radius:10px;
+
+    color:#6D4C41;
+
+    font-size:17px;
+
+    transition:.3s;
+
+}
+
+.alert-card:hover{
+
+    transform:translateX(8px);
+
+}
+
+/* ==========================================
+                RESPONSIVE
+========================================== */
+
+@media (max-width:992px){
+
+    .top-row{
+
+        flex-direction:column;
+
+    }
+
+    .second-row{
+
+        flex-direction:column;
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .weather-page{
+
+        padding:18px;
+
+    }
+
+    .weather-header h1{
+
+        font-size:32px;
+
+    }
+
+    .search-card{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .search-card input{
+
+        width:100%;
+
+        min-width:100%;
+
+    }
+
+    .search-card button{
+
+        width:100%;
+
+    }
+
+    .weather-details{
+
+        justify-content:center;
+
+    }
+
+    .detail-card{
+
+        flex:1 1 100%;
+
+    }
+
+    .status-box{
+
+        width:100%;
+
+    }
+
+    .recommendation-status{
+
+        display:block;
+
+        text-align:center;
+
+    }
+
+}
+
+@media (max-width:480px){
+
+    .weather-page{
+
+        padding:12px;
+
+    }
+
+    .weather-header h1{
+
+        font-size:26px;
+
+    }
+
+    .current-weather{
+
+        padding:22px;
+
+    }
+
+    .current-weather h1{
+
+        font-size:42px;
+
+    }
+
+    .current-weather h2{
+
+        font-size:28px;
+
+    }
+
+    .weather-icon{
+
+        font-size:55px;
+
+    }
+
+    .hour-card{
+
+        flex:0 0 100px;
+
+    }
+
+    .day-card{
+
+        flex:1 1 100%;
+
+        max-width:100%;
+
+    }
+
+}
+
+/* ==========================================
+            GLOBAL ANIMATION
+========================================== */
+
+.current-weather,
+.detail-card,
+.road-status,
+.recommendation-card,
+.hourly-section,
+.weekly-section,
+.alerts-section{
+
+    animation:fadeIn .5s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}

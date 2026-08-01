@@ -45,8 +45,8 @@ function Register() {
         />
          <select className="register-select">
             <option value="citizen">Register as </option>
-             <option value="citizen">Citizen</option>
-             <option value="disaster-official">Disaster Official</option>
+             <option value="citizen">Driver</option>
+             <option value="disaster-official">Disaster Official/RoadManagement</option>
         </select>
 
 

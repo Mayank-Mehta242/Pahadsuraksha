@@ -1,122 +1,265 @@
 body{
     margin:0;
+    padding:0;
     font-family:'Poppins',sans-serif;
+    background:#eef5ef;
 }
 
 .login-page{
-    height:100vh;
+
+    min-height:100vh;
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
+
+    padding:30px;
+
     background:linear-gradient(135deg,#dff6e4,#d4e8ff);
+
 }
 
 .login-card{
+
     position:relative;
+
     width:420px;
-    background:white;
-    border-radius:20px;
+
+    background:rgb(234, 215, 215);
+
     padding:40px;
-    box-shadow:0 10px 25px rgba(0,0,0,.15);
+
+    border-radius:20px;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+
 }
 
 .login-card h1{
+
     text-align:center;
-    color:#2E7D32;
+
+    color:#1B4332;
+
     margin-bottom:10px;
+
 }
 
 .subtitle{
+
     text-align:center;
+
     color:#666;
+
+    margin-bottom:30px;
+
+    line-height:1.6;
+
+}
+
+.input-group{
+
+    display:flex;
+
+    flex-direction:column;
+
     margin-bottom:20px;
+
 }
 
-.login-card input{
-    width:100%;
-    padding:15px;
-    margin-top:15px;
+.input-group label{
+
+    font-size:15px;
+
+    font-weight:600;
+
+    color:#1B4332;
+
+    margin-bottom:8px;
+
+}
+
+.input-group input,
+.input-group select{
+
+    padding:14px;
+
+    border:2px solid #2b983c;
+
     border-radius:10px;
-    border:1px solid #ccc;
+
     font-size:16px;
-    box-sizing:border-box;
-    outline:none;
+
+    font-family:'Poppins',sans-serif;
+
     transition:.3s;
+
+    background:#6b5151;
+
 }
 
-.login-card input:focus{
+.input-group input:focus,
+.input-group select:focus{
+
+    outline:none;
+
     border-color:#2E7D32;
-    box-shadow:0 0 5px rgba(46,125,50,.3);
+
+    box-shadow:0 0 10px rgba(46,125,50,.2);
+
+    background:rgb(92, 54, 54);
+
+}
+
+.input-group input:hover,
+.input-group select:hover{
+
+    border-color:#1B4332;
+
 }
 
 .forgot-password{
+
     display:block;
+
     text-align:right;
-    margin-top:10px;
+
     text-decoration:none;
+
     color:#2E7D32;
+
     font-size:14px;
+
+    margin-bottom:20px;
+
+    transition:.3s;
+
 }
 
 .forgot-password:hover{
+
+    color:#1B4332;
+
     text-decoration:underline;
+
 }
 
 .login-button{
+
     width:100%;
-    margin-top:20px;
+
     padding:15px;
+
     border:none;
-    background:#2E7D32;
-    color:white;
+
     border-radius:10px;
+
+    background:#2E7D32;
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:600;
+
     cursor:pointer;
-    font-size:18px;
+
     transition:.3s;
+
 }
 
 .login-button:hover{
-    background:#1B5E20;
+
+    background:#1B4332;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 18px rgba(27,67,50,.25);
+
 }
 
 .register-text{
+
     text-align:center;
+
     margin-top:25px;
-    color:#666;
+
+    color:#555;
+
 }
 
 .register-btn{
+
     display:block;
+
     width:100%;
+
     text-align:center;
+
     text-decoration:none;
-    padding:15px;
+
+    padding:14px;
+
     margin-top:12px;
+
     border-radius:10px;
-    background:#E3F2FD;
-    color:#1565C0;
-    font-size:16px;
+
+    background:#E8F5E9;
+
+    color:#1B4332;
+
     font-weight:600;
+
     transition:.3s;
-    box-sizing:border-box;
+
 }
 
 .register-btn:hover{
-    background:#BBDEFB;
+
+    background:#C8E6C9;
+
+    transform:translateY(-2px);
+
 }
 
 .close-btn{
+
     position:absolute;
+
     top:15px;
-    right:18px;
+
+    right:20px;
+
     text-decoration:none;
+
     font-size:30px;
+
+    color:#666;
+
     font-weight:bold;
-    color:#555;
+
     transition:.3s;
+
 }
 
 .close-btn:hover{
-    color:#d32f2f;
+
+    color:#C62828;
+
     transform:rotate(90deg);
+
+}
+
+@media(max-width:500px){
+
+    .login-card{
+
+        width:100%;
+
+        padding:25px;
+
+    }
+
 }
