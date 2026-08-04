@@ -1,7 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/adminpanel.css";
 
 function AdminPanel() {
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+    const role = (storedUser?.role || "").toLowerCase();
+    const isAdmin = role.includes("official") || role.includes("admin") || role.includes("disaster");
+
+    if (!isAdmin) {
+      window.location.href = "/dashboard";
+    }
+  }, []);
 
   /* ===============================================
       Reports fetched from backend
@@ -12,7 +21,6 @@ function AdminPanel() {
   =============================================== */
 
   const [reports, setReports] = useState([
-
     {
       id: 1001,
       title: "Landslide near Chamba",
@@ -26,7 +34,6 @@ function AdminPanel() {
       image: "No Image",
       aiScore: "91%"
     },
-
     {
       id: 1002,
       title: "Tree Fall",
@@ -40,8 +47,10 @@ function AdminPanel() {
       image: "No Image",
       aiScore: "82%"
     }
-
   ]);
+
+  const [approvedCount, setApprovedCount] = useState(0);
+  const [rejectedCount, setRejectedCount] = useState(0);
 
 
 
@@ -55,10 +64,9 @@ function AdminPanel() {
 
   =============================================== */
 
-  const approveReport = (id)=>{
-
-      console.log("Approve Report",id);
-
+  const approveReport = (id) => {
+    setReports((prev) => prev.filter((report) => report.id !== id));
+    setApprovedCount((prev) => prev + 1);
   };
 
 
@@ -73,10 +81,9 @@ function AdminPanel() {
 
   =============================================== */
 
-  const rejectReport=(id)=>{
-
-      console.log("Reject Report",id);
-
+  const rejectReport = (id) => {
+    setReports((prev) => prev.filter((report) => report.id !== id));
+    setRejectedCount((prev) => prev + 1);
   };
 
 
@@ -124,35 +131,13 @@ Pending
 </div>
 
 <div className="stat-card">
-
-<h2>
-
-Approved
-
-</h2>
-
-<h1>
-
-0
-
-</h1>
-
+  <h2>Approved</h2>
+  <h1>{approvedCount}</h1>
 </div>
 
 <div className="stat-card">
-
-<h2>
-
-Rejected
-
-</h2>
-
-<h1>
-
-0
-
-</h1>
-
+  <h2>Rejected</h2>
+  <h1>{rejectedCount}</h1>
 </div>
 
 </div>

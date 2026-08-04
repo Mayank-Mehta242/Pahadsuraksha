@@ -30,51 +30,45 @@ function Report() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    /*
-    ============================================
-          BACKEND API
-
-    POST /api/report
-
-    Send
-
-    {
-        title,
-        location,
-        severity,
-        category,
-        description,
-        media,
-        status:"Pending"
+    const formData = new FormData();
+    formData.append("title", report.title);
+    formData.append("description", report.description);
+    formData.append("location", report.location);
+    formData.append("district", "Tehri Garhwal");
+    formData.append("severity", report.severity);
+    formData.append("category", report.category);
+    if (report.media) {
+      formData.append("image", report.media);
     }
 
-    Backend should:
+    try {
+      const response = await fetch("/api/incident/report", {
+        method: "POST",
+        body: formData
+      });
 
-    1. Save report in database
-    2. Upload media
-    3. Store current date & time
-    4. Assign report ID
-    5. Status = Pending
-    6. Notify Disaster Officials
+      const data = await response.json().catch(() => ({}));
 
-    ============================================
-    */
+      if (!response.ok) {
+        throw new Error(data.message || "Unable to submit incident report.");
+      }
 
-    console.log(report);
+      alert(data.message || "Report submitted successfully. Waiting for Admin Approval.");
 
-    alert("Report submitted successfully. Waiting for Admin Approval.");
+      setReport({
+        title: "",
+        location: "",
+        severity: "",
+        category: "",
+        description: "",
+        media: null,
+        status: "Pending"
+      });
 
-    setReport({
-      title: "",
-      location: "",
-      severity: "",
-      category: "",
-      description: "",
-      media: null,
-      status: "Pending"
-    });
-
-    document.getElementById("media").value = "";
+      document.getElementById("media").value = "";
+    } catch (err) {
+      alert(err.message || "Unable to submit report.");
+    }
   };
 
   return (

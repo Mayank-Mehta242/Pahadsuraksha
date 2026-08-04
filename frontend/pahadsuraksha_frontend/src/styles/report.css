@@ -41,10 +41,10 @@ body{
     color:#1B4332;
 
     margin-bottom:10px;
-
+ 
     font-size:36px;
 
-}
+} 
 
 .report-card p{
 
@@ -121,7 +121,7 @@ body{
 .input-box textarea:focus{
 
     outline:none;
-
+   
     border-color:#2E7D32;
 
     box-shadow:0 0 10px rgba(46,125,50,0.2);

@@ -3,38 +3,56 @@ import "../styles/login.css";
 import { Link } from "react-router-dom";
 
 function Login() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [role, setRole] = useState("Citizen");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    /*
-    ===============================================
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
 
-        BACKEND LOGIN API
+      const data = await response.json().catch(() => ({}));
 
-        POST /api/login
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed.");
+      }
 
-        Send
+      const authToken = data.token || data.access_token || "";
+      const userData = data.user || {};
 
-        {
-            email,
-            password,
-            role
-        }
+      if (authToken) {
+        localStorage.setItem("token", authToken);
+      }
+      localStorage.setItem("user", JSON.stringify(userData));
 
-        Backend Response
+      const normalizedRole = (userData.role || "").toLowerCase();
+      const isAdmin = normalizedRole.includes("official") || normalizedRole.includes("admin") || normalizedRole.includes("disaster");
 
-        If Citizen
-            Navigate -> /dashboard
-
-        If Disaster Official
-            Navigate -> /admin
-
-    ===============================================
-    */
-
-    console.log("Login as:", role);
+      window.location.href = isAdmin ? "/admin-panel" : "/dashboard";
+    } catch (err) {
+      setError(err.message || "Unable to sign in.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -52,28 +70,7 @@ function Login() {
           Login to continue using <strong>PAHADSURAKSHA</strong>
         </p>
 
-        {/* Login As */}
-
-        <div className="input-group">
-
-          <label>Login As</label>
-
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          >
-            <option value="Citizen">
-              Citizen
-            </option>
-
-            <option value="Disaster Official">
-              Disaster Official
-            </option>
-
-          </select>
-
-        </div>
-
+        <form onSubmit={handleLogin}>
         {/* Email */}
 
         <div className="input-group">
@@ -82,7 +79,11 @@ function Login() {
 
           <input
             type="email"
+            name="email"
             placeholder="Enter your email"
+            value={formData.email}
+            onChange={handleChange}
+            required
           />
 
         </div>
@@ -95,7 +96,11 @@ function Login() {
 
           <input
             type="password"
+            name="password"
             placeholder="Enter your password"
+            value={formData.password}
+            onChange={handleChange}
+            required
           />
 
         </div>
@@ -107,11 +112,14 @@ function Login() {
           Forgot Password?
         </Link>
 
+        {error && <p className="error-message">{error}</p>}
+
         <button
           className="login-button"
-          onClick={handleLogin}
+          type="submit"
+          disabled={loading}
         >
-          Login
+          {loading ? "Signing in..." : "Login"}
         </button>
 
         <p className="register-text">
@@ -126,6 +134,7 @@ function Login() {
         >
           Register
         </Link>
+        </form>
 
       </div>
 

@@ -2,21 +2,10 @@ import { useState } from "react";
 import "../styles/dashboard.css";
 
 function Dashboard() {
-
-  /* ==========================================================
-      USER INPUT
-      Source & Destination
-  ========================================================== */
-
   const [routeData, setRouteData] = useState({
     source: "",
     destination: ""
   });
-
-  /* ==========================================================
-      WEATHER DATA
-      Replace this with OpenWeather API response later
-  ========================================================== */
 
   const [weather, setWeather] = useState({
     condition: "--",
@@ -26,15 +15,12 @@ function Dashboard() {
     windSpeed: "--"
   });
 
-  /* ==========================================================
-      AI PREDICTION
-      Replace this with Flask API response
-  ========================================================== */
-
   const [prediction, setPrediction] = useState({
     risk: "--",
     recommendation: "--"
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setRouteData({
@@ -44,65 +30,56 @@ function Dashboard() {
   };
 
   const checkRoute = async () => {
+    if (!routeData.source || !routeData.destination) {
+      setError("Please enter both source and destination.");
+      return;
+    }
 
-    /* ==========================================================
-        STEP 1
-        Use Geocoding API
-        Convert Source & Destination into coordinates
+    setLoading(true);
+    setError("");
 
-        Example:
-        Source -> Latitude, Longitude
-        Destination -> Latitude, Longitude
-    ========================================================== */
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("Please log in before checking the route.");
+      }
 
+      const response = await fetch("/api/prediction/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : ""
+        },
+        body: JSON.stringify({
+          source: routeData.source.trim(),
+          destination: routeData.destination.trim()
+        })
+      });
 
-    /* ==========================================================
-        STEP 2
-        Use OpenWeather API
+      const data = await response.json().catch(() => ({}));
 
-        Fetch weather for Source
-        OR multiple points on the route.
+      if (!response.ok) {
+        throw new Error(data.message || `Unable to analyze route. (${response.status})`);
+      }
 
-        Example Endpoint
+      setWeather({
+        condition: data.weather?.condition || "Unknown",
+        rainfall: data.weather?.rainfall ?? "--",
+        humidity: data.weather?.humidity ?? "--",
+        temperature: data.weather?.temperature ?? "--",
+        windSpeed: data.weather?.wind_speed ?? "--"
+      });
 
-        /weather?lat=...&lon=...
-
-        Update
-
-        setWeather(...)
-    ========================================================== */
-
-
-    /* ==========================================================
-        STEP 3
-
-        Send weather + route information to Flask
-
-        POST /predict
-
-        {
-            source,
-            destination,
-            rainfall,
-            humidity,
-            temperature,
-            windSpeed
-        }
-
-        Response
-
-        {
-            risk:"Medium",
-            recommendation:"Travel with Caution"
-        }
-
-        Update
-
-        setPrediction(...)
-    ========================================================== */
-
-    console.log("API Integration Here");
-
+      setPrediction({
+        risk: data.prediction?.risk || "Unknown",
+        recommendation: data.prediction?.recommendation || "No recommendation available."
+      });
+    } catch (err) {
+      setError(err.message || "Unable to analyze route.");
+      setPrediction({ risk: "--", recommendation: "--" });
+    } finally {
+      setLoading(false);
+    }
   };
 
 
@@ -176,11 +153,12 @@ function Dashboard() {
         <button
           className="check-btn"
           onClick={checkRoute}
+          disabled={loading}
         >
-
-          Check Route
-
+          {loading ? "Analyzing..." : "Check Route"}
         </button>
+
+        {error && <p className="error-message">{error}</p>}
 
       </div>
 
@@ -205,9 +183,7 @@ function Dashboard() {
         </h2>
 
         <div className="risk-box">
-
           {prediction.risk}
-
         </div>
 
       </div>

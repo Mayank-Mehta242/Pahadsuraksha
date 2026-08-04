@@ -8,6 +8,8 @@ function Weather() {
   ========================================================== */
 
   const [location, setLocation] = useState("Tehri Garhwal");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   /* ==========================================================
       CURRENT WEATHER
@@ -117,49 +119,58 @@ function Weather() {
   ========================================================== */
 
   const searchWeather = async () => {
-
-    /*
-    =========================================================
-
-    POST /weather
-
-    {
-        location
+    if (!location.trim()) {
+      setError("Please enter a city or location.");
+      return;
     }
 
-    Backend Response
+    setLoading(true);
+    setError("");
 
-    {
+    try {
+      const response = await fetch(`/api/weather/?city=${encodeURIComponent(location)}`);
+      const data = await response.json().catch(() => ({}));
 
-        weather:{},
+      if (!response.ok) {
+        throw new Error(data.message || "Unable to fetch weather data.");
+      }
 
-        prediction:{},
+      setWeather({
+        city: data.city || location,
+        condition: data.description || data.condition || "Unknown",
+        icon: data.icon ? `🌤` : "🌤",
+        temperature: `${Math.round(data.temperature)}°C`,
+        feelsLike: `${Math.round(data.feelsLike)}°C`,
+        humidity: `${data.humidity}%`,
+        rainfall: `${data.rainfall} mm`,
+        windSpeed: `${data.windSpeed} km/h`,
+        visibility: `${data.visibility} m`,
+        pressure: `${data.pressure} hPa`,
+        uvIndex: "5",
+        updated: new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
+      });
 
-        alerts:[],
+      setRoadStatus({
+        level: data.roadStatus?.level || "Safe",
+        color: data.roadStatus?.color === "red" ? "#d32f2f" : data.roadStatus?.color === "orange" ? "#f57c00" : data.roadStatus?.color === "yellow" ? "#fbc02d" : "#2e7d32"
+      });
 
-        hourlyForecast:[],
-
-        weeklyForecast:[]
-
+      setAlerts(data.alerts || []);
+      setHourlyForecast((data.hourlyForecast || []).slice(0, 5).map((item) => ({
+        time: new Date(item.time).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }),
+        icon: "🌤",
+        temp: `${Math.round(item.temperature)}°C`
+      })));
+      setWeeklyForecast((data.weeklyForecast || []).slice(0, 7).map((item) => ({
+        day: item.day || "Day",
+        icon: "🌤",
+        temp: `${Math.round(item.temperature)}°C`
+      })));
+    } catch (err) {
+      setError(err.message || "Unable to fetch weather data.");
+    } finally {
+      setLoading(false);
     }
-
-    Update
-
-    setWeather()
-
-    setRoadStatus()
-
-    setAlerts()
-
-    setHourlyForecast()
-
-    setWeeklyForecast()
-
-    =========================================================
-    */
-
-    console.log("Fetch Weather Here");
-
   };
 
   return (
@@ -195,11 +206,11 @@ function Weather() {
           onChange={(e) => setLocation(e.target.value)}
         />
 
-        <button onClick={searchWeather}>
-
-          Search
-
+        <button onClick={searchWeather} disabled={loading}>
+          {loading ? "Loading..." : "Search"}
         </button>
+
+        {error && <p className="error-message">{error}</p>}
 
       </div>
 

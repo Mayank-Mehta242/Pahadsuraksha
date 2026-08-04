@@ -7,6 +7,9 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const closeMenu = () => setMenuOpen(false);
+  const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+  const role = (storedUser?.role || "").toLowerCase();
+  const isAdmin = role.includes("official") || role.includes("admin") || role.includes("disaster");
 
   return (
     <nav className="navbar">
@@ -46,6 +49,12 @@ function Navbar() {
             <Link to="/report-incident" className="menu-item" onClick={closeMenu}>
               Report Incident
             </Link>
+
+            {isAdmin && (
+              <Link to="/admin-panel" className="menu-item" onClick={closeMenu}>
+                Admin Panel
+              </Link>
+            )}
 
             <Link
               to="/login"
