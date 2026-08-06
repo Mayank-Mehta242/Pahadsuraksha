@@ -1,7 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/report.css";
 
 function Report() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.alert("Please login first to submit an incident report.");
+      navigate("/login");
+    }
+  }, [navigate]);
 
   const [report, setReport] = useState({
     title: "",
@@ -42,8 +52,12 @@ function Report() {
     }
 
     try {
+      const token = localStorage.getItem("token");
       const response = await fetch("/api/incident/report", {
         method: "POST",
+        headers: {
+          Authorization: token ? `Bearer ${token}` : ""
+        },
         body: formData
       });
 

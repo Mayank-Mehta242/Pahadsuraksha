@@ -41,7 +41,7 @@ def official_required(function):
 
         user_id = get_jwt_identity()
 
-        user = User.query.get(user_id)
+        user = User.query.get(int(user_id))
 
         if user is None:
 
@@ -53,7 +53,9 @@ def official_required(function):
 
             }), 404
 
-        if user.role != "Official":
+        normalized_role = str(user.role or "").strip().lower()
+
+        if normalized_role not in {"official", "admin", "disaster"}:
 
             return jsonify({
 

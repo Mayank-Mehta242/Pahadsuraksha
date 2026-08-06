@@ -595,7 +595,7 @@ function Weather() {
       Backend Response
 
 
-      {
+      { 
 
           weather:{
 

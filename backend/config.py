@@ -113,7 +113,7 @@ class Config:
     }
 
     ALLOWED_VIDEO_EXTENSIONS = {
-        "mp4",
+         "mp4",
         "mov",
         "avi"
     }

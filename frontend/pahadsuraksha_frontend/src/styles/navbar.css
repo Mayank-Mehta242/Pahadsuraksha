@@ -93,17 +93,26 @@
     padding-left: 28px;
 }
 
-.login-item {
+.login-item,
+.logout-item {
     background: #2E7D32;
     color: white;
     text-align: center;
     font-weight: 600;
+    border: none;
+    width: 100%;
+    text-align: left;
 }
 
-.login-item:hover {
+.login-item:hover,
+.logout-item:hover {
     background: #1B5E20;
     color: white;
     padding-left: 20px;
+}
+
+.logout-item {
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {

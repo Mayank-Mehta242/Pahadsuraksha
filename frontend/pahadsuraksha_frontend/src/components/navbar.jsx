@@ -1,15 +1,25 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/navbar.css";
 import logoimg from "../assets/ChatGPT.png";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const closeMenu = () => setMenuOpen(false);
   const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+  const token = localStorage.getItem("token");
   const role = (storedUser?.role || "").toLowerCase();
   const isAdmin = role.includes("official") || role.includes("admin") || role.includes("disaster");
+  const isLoggedIn = !!token;
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setMenuOpen(false);
+    navigate("/login");
+  };
 
   return (
     <nav className="navbar">
@@ -56,13 +66,23 @@ function Navbar() {
               </Link>
             )}
 
-            <Link
-              to="/login"
-              className="menu-item login-item"
-              onClick={closeMenu}
-            >
-              Login
-            </Link>
+            {!isLoggedIn ? (
+              <Link
+                to="/login"
+                className="menu-item login-item"
+                onClick={closeMenu}
+              >
+                Login
+              </Link>
+            ) : (
+              <button
+                type="button"
+                className="menu-item logout-item"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            )}
           </div>
         )}
       </div>

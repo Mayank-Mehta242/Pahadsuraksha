@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/register.css";
 
-function Register() {
+function Register() { 
   const [formData, setFormData] = useState({
     name: "",
     district: "",
@@ -121,7 +121,7 @@ function Register() {
             onChange={handleChange}
             required
           >
-            <option value="Citizen">Citizen</option>
+            <option value="Citizen">Driver</option>
             <option value="Official">Official</option>
           </select>
 
@@ -143,4 +143,4 @@ function Register() {
   );
 }
 
-export default Register;
+  export default Register;
