@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../styles/login.css";
 import { Link } from "react-router-dom";
+import { storeAuthData, isAdminRole } from "../utils/auth";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -39,13 +40,9 @@ function Login() {
       const authToken = data.token || data.access_token || "";
       const userData = data.user || {};
 
-      if (authToken) {
-        localStorage.setItem("token", authToken);
-      }
-      localStorage.setItem("user", JSON.stringify(userData));
+      storeAuthData(userData, authToken);
 
-      const normalizedRole = (userData.role || "").toLowerCase();
-      const isAdmin = normalizedRole.includes("official") || normalizedRole.includes("admin") || normalizedRole.includes("disaster");
+      const isAdmin = isAdminRole(userData.role);
 
       window.location.href = isAdmin ? "/admin-panel" : "/dashboard";
     } catch (err) {

@@ -31,17 +31,23 @@ function Weather() {
     humidity: "82%",
 
     rainfall: "12 mm",
-
     windSpeed: "18 km/h",
-
     visibility: "6 km",
-
     pressure: "1012 hPa",
-
     uvIndex: "5",
-
     updated: "2:45 PM"
 
+  });
+
+  const [recommendation, setRecommendation] = useState({
+    title: "Drive with Caution",
+    message: "Moderate rainfall detected around Tehri Garhwal.",
+    tips: [
+      "Drive below 40 km/h",
+      "Keep headlights ON",
+      "Maintain safe distance",
+      "Avoid landslide-prone routes"
+    ]
   });
 
   /* ==========================================================
@@ -135,37 +141,54 @@ function Weather() {
         throw new Error(data.message || "Unable to fetch weather data.");
       }
 
-      setWeather({
+      const normalizedWeather = {
         city: data.city || location,
-        condition: data.description || data.condition || "Unknown",
-        icon: data.icon ? `🌤` : "🌤",
-        temperature: `${Math.round(data.temperature)}°C`,
-        feelsLike: `${Math.round(data.feelsLike)}°C`,
-        humidity: `${data.humidity}%`,
-        rainfall: `${data.rainfall} mm`,
-        windSpeed: `${data.windSpeed} km/h`,
-        visibility: `${data.visibility} m`,
-        pressure: `${data.pressure} hPa`,
+        condition: data.condition || data.description || "Weather unavailable",
+        icon: data.icon || "🌤",
+        temperature: `${Math.round(Number(data.temperature) || 24)}°C`,
+        feelsLike: `${Math.round(Number(data.feelsLike) || 24)}°C`,
+        humidity: `${Math.round(Number(data.humidity) || 0)}%`,
+        rainfall: `${Math.round(Number(data.rainfall) || 0)} mm`,
+        windSpeed: `${Math.round(Number(data.windSpeed) || 0)} km/h`,
+        visibility: `${Math.round(Number(data.visibility) || 0)} m`,
+        pressure: `${Math.round(Number(data.pressure) || 1012)} hPa`,
         uvIndex: "5",
         updated: new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
-      });
+      };
 
-      setRoadStatus({
+      const normalizedRoadStatus = {
         level: data.roadStatus?.level || "Safe",
         color: data.roadStatus?.color === "red" ? "#d32f2f" : data.roadStatus?.color === "orange" ? "#f57c00" : data.roadStatus?.color === "yellow" ? "#fbc02d" : "#2e7d32"
-      });
+      };
 
-      setAlerts(data.alerts || []);
+      const fallbackTips = [
+        "Drive below 40 km/h",
+        "Keep headlights ON",
+        "Maintain safe distance",
+        "Avoid landslide-prone routes"
+      ];
+
+      setWeather(normalizedWeather);
+      setRoadStatus(normalizedRoadStatus);
+      setAlerts((data.alerts && data.alerts.length > 0 ? data.alerts : ["No major alerts at the moment."]).slice(0, 5));
       setHourlyForecast((data.hourlyForecast || []).slice(0, 5).map((item) => ({
-        time: new Date(item.time).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }),
+        time: item.time ? new Date(item.time).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : "Now",
         icon: "🌤",
-        temp: `${Math.round(item.temperature)}°C`
+        temp: `${Math.round(Number(item.temperature) || 24)}°C`
       })));
       setWeeklyForecast((data.weeklyForecast || []).slice(0, 7).map((item) => ({
         day: item.day || "Day",
         icon: "🌤",
-        temp: `${Math.round(item.temperature)}°C`
+        temp: `${Math.round(Number(item.temperature) || 24)}°C`
       })));
+
+      setRecommendation({
+        title: normalizedRoadStatus.level === "Safe" ? "Safe to Travel" : normalizedRoadStatus.level === "Moderate" ? "Drive with Caution" : "Avoid Travel if Possible",
+        message: data.fallback
+          ? `Live weather data is temporarily unavailable, so a safe fallback view is being shown for ${normalizedWeather.city}.`
+          : `${normalizedWeather.condition} conditions are reported for ${normalizedWeather.city}.`,
+        tips: fallbackTips
+      });
     } catch (err) {
       setError(err.message || "Unable to fetch weather data.");
     } finally {
@@ -364,42 +387,23 @@ function Weather() {
 
             <div className="recommendation-status">
 
-              🟡 Drive with Caution
+              {recommendation.title}
 
             </div>
 
             <p>
 
-              Moderate rainfall detected around
-              Tehri Garhwal.
+              {recommendation.message}
 
             </p>
 
             <ul>
 
-              <li>
-
-                ✔ Drive below 40 km/h
-
-              </li>
-
-              <li>
-
-                ✔ Keep headlights ON
-
-              </li>
-
-              <li>
-
-                ✔ Maintain safe distance
-
-              </li>
-
-              <li>
-
-                ✔ Avoid landslide-prone routes
-
-              </li>
+              {recommendation.tips.map((tip, index) => (
+                <li key={index}>
+                  ✔ {tip}
+                </li>
+              ))}
 
             </ul>
 

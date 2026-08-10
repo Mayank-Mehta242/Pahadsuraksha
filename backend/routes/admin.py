@@ -4,6 +4,14 @@ from flask import Blueprint
 from flask import jsonify
 from flask import request
 
+
+def is_official_role(role):
+    normalized_role = str(role or "").strip().lower()
+    return any(
+        marker in normalized_role
+        for marker in ("official", "admin", "disaster")
+    )
+
 from flask_jwt_extended import (
     jwt_required,
     get_jwt_identity
@@ -53,9 +61,7 @@ def official_required(function):
 
             }), 404
 
-        normalized_role = str(user.role or "").strip().lower()
-
-        if normalized_role not in {"official", "admin", "disaster"}:
+        if not is_official_role(user.role):
 
             return jsonify({
 

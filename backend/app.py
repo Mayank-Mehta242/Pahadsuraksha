@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, abort, send_from_directory
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from models import db, init_models
@@ -67,6 +67,18 @@ def home():
         "message": "Welcome to PAHADSURAKSHA Backend API",
         "status": "Running"
     }
+
+# =====================================================
+# Serve Uploaded Media
+# =====================================================
+
+@app.route("/api/media/<path:media_type>/<filename>")
+def serve_media(media_type, filename):
+    if media_type not in {"images", "videos"}:
+        abort(404)
+
+    folder = Config.IMAGE_FOLDER if media_type == "images" else Config.VIDEO_FOLDER
+    return send_from_directory(folder, filename)
 
 # =====================================================
 # Create Database Tables

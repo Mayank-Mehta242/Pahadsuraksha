@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/report.css";
+import { getStoredToken, getStoredUser, isAdminRole } from "../utils/auth";
 
 function Report() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getStoredToken();
     if (!token) {
       window.alert("Please login first to submit an incident report.");
       navigate("/login");
@@ -52,7 +53,7 @@ function Report() {
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const token = getStoredToken();
       const response = await fetch("/api/incident/report", {
         method: "POST",
         headers: {
@@ -67,6 +68,9 @@ function Report() {
         throw new Error(data.message || "Unable to submit incident report.");
       }
 
+      const storedUser = getStoredUser();
+      const isOfficial = isAdminRole(storedUser?.role);
+
       alert(data.message || "Report submitted successfully. Waiting for Admin Approval.");
 
       setReport({
@@ -80,6 +84,13 @@ function Report() {
       });
 
       document.getElementById("media").value = "";
+
+      if (isOfficial) {
+        navigate("/admin-panel");
+        return;
+      }
+
+      navigate("/dashboard");
     } catch (err) {
       alert(err.message || "Unable to submit report.");
     }

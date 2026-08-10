@@ -93,28 +93,54 @@ def get_weather():
 
         CURRENT_WEATHER_URL,
 
-        params=params
+        params=params,
+
+        timeout=8
 
     )
-
-    if current_response.status_code != 200:
-
-        return jsonify({
-
-            "message": "Unable to fetch weather."
-
-        }), 500
-
-    current = current_response.json()
 
     forecast_response = requests.get(
 
         FORECAST_URL,
 
-        params=params
+        params=params,
+
+        timeout=8
 
     )
 
+    if current_response.status_code != 200 or forecast_response.status_code != 200:
+
+        return jsonify({
+            "city": city,
+            "condition": "Weather unavailable",
+            "description": "Weather service is temporarily unavailable.",
+            "icon": "☁️",
+            "temperature": 24,
+            "feelsLike": 24,
+            "humidity": 70,
+            "pressure": 1012,
+            "visibility": 6000,
+            "windSpeed": 8,
+            "rainfall": 0,
+            "updated": None,
+            "roadStatus": get_road_status(0, 8),
+            "hourlyForecast": [
+                {"time": "Now", "temperature": 24, "icon": "☁️"},
+                {"time": "1 PM", "temperature": 23, "icon": "🌦"},
+                {"time": "2 PM", "temperature": 22, "icon": "🌧"},
+                {"time": "3 PM", "temperature": 21, "icon": "🌧"},
+                {"time": "4 PM", "temperature": 20, "icon": "⛅"}
+            ],
+            "weeklyForecast": [
+                {"day": "Today", "temperature": 24, "icon": "☁️"},
+                {"day": "Tomorrow", "temperature": 23, "icon": "🌦"}
+            ],
+            "alerts": ["No major alerts at the moment."],
+            "fallback": True
+        })
+
+    current = current_response.json()
     forecast = forecast_response.json()
 
     rainfall = 0

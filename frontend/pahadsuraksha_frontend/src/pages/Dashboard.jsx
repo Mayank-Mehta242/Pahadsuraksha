@@ -7,14 +7,6 @@ function Dashboard() {
     destination: ""
   });
 
-  const [weather, setWeather] = useState({
-    condition: "--",
-    rainfall: "--",
-    humidity: "--",
-    temperature: "--",
-    windSpeed: "--"
-  });
-
   const [prediction, setPrediction] = useState({
     risk: "--",
     recommendation: "--"
@@ -62,14 +54,6 @@ function Dashboard() {
         throw new Error(data.message || `Unable to analyze route. (${response.status})`);
       }
 
-      setWeather({
-        condition: data.weather?.condition || "Unknown",
-        rainfall: data.weather?.rainfall ?? "--",
-        humidity: data.weather?.humidity ?? "--",
-        temperature: data.weather?.temperature ?? "--",
-        windSpeed: data.weather?.wind_speed ?? "--"
-      });
-
       setPrediction({
         risk: data.prediction?.risk || "Unknown",
         recommendation: data.prediction?.recommendation || "No recommendation available."
@@ -99,6 +83,9 @@ function Dashboard() {
         Check road safety between two locations in Uttarakhand.
 
       </p>
+      <p className="route-hint">
+        Supported Tehri locations include Tehri, New Tehri, Chamba, Dharasu, Ghansali, Narendranagar, Bhatwari, Devprayag, Pratapnagar, Jakhnidhar, Kirtinagar, Mansuna, Miyuna and Bhilangana.
+      </p>
 
 
 
@@ -125,7 +112,7 @@ function Dashboard() {
           <input
             type="text"
             name="source"
-            placeholder="Enter Source"
+            placeholder="e.g. Tehri, New Tehri, Chamba"
             value={routeData.source}
             onChange={handleChange}
           />
@@ -143,7 +130,7 @@ function Dashboard() {
           <input
             type="text"
             name="destination"
-            placeholder="Enter Destination"
+            placeholder="e.g. Chamba, Dharasu, Ghansali"
             value={routeData.destination}
             onChange={handleChange}
           />

@@ -1,5 +1,6 @@
 ﻿import { useEffect, useState } from "react";
 import "../styles/adminpanel.css";
+import { getStoredToken, getStoredUser, isAdminRole } from "../utils/auth";
 
 function AdminPanel() {
   const [reports, setReports] = useState([]);
@@ -7,24 +8,23 @@ function AdminPanel() {
   const [error, setError] = useState("");
   const [approvedCount, setApprovedCount] = useState(0);
   const [rejectedCount, setRejectedCount] = useState(0);
+  const [selectedMedia, setSelectedMedia] = useState(null);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user") || "null");
-    const role = (storedUser?.role || "").toLowerCase();
-    const isAdmin = role.includes("official") || role.includes("admin") || role.includes("disaster");
-
-    if (!isAdmin) {
-      window.location.href = "/dashboard";
-      return;
-    }
-
-    const token = localStorage.getItem("token");
-    if (!token) {
-      window.location.href = "/login";
-      return;
-    }
-
     const loadReports = async () => {
+      const storedUser = getStoredUser();
+      const isAdmin = isAdminRole(storedUser?.role);
+
+      if (!isAdmin) {
+        window.location.href = "/dashboard";
+        return;
+      }
+
+      const token = getStoredToken();
+      if (!token) {
+        window.location.href = "/login";
+        return;
+      }
       try {
         setLoading(true);
         setError("");
@@ -53,7 +53,7 @@ function AdminPanel() {
   }, []);
 
   const approveReport = async (id) => {
-    const token = localStorage.getItem("token");
+    const token = getStoredToken();
 
     try {
       const response = await fetch(`/api/admin/approve/${id}`, {
@@ -61,13 +61,14 @@ function AdminPanel() {
         headers: {
           "Content-Type": "application/json",
           Authorization: token ? `Bearer ${token}` : ""
-        }
+        },
+        body: JSON.stringify({ remark: "Verified by Disaster Management Authority." })
       });
 
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.message || "Unable to approve report.");
+        throw new Error(data.message || data.error || "Unable to approve report.");
       }
 
       setReports((prev) => prev.filter((report) => report.id !== id));
@@ -78,7 +79,7 @@ function AdminPanel() {
   };
 
   const rejectReport = async (id) => {
-    const token = localStorage.getItem("token");
+    const token = getStoredToken();
 
     try {
       const response = await fetch(`/api/admin/reject/${id}`, {
@@ -86,13 +87,14 @@ function AdminPanel() {
         headers: {
           "Content-Type": "application/json",
           Authorization: token ? `Bearer ${token}` : ""
-        }
+        },
+        body: JSON.stringify({ remark: "Report rejected after verification." })
       });
 
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.message || "Unable to reject report.");
+        throw new Error(data.message || data.error || "Unable to reject report.");
       }
 
       setReports((prev) => prev.filter((report) => report.id !== id));
@@ -100,6 +102,26 @@ function AdminPanel() {
     } catch (err) {
       alert(err.message || "Unable to reject report.");
     }
+  };
+
+  const openMediaPreview = (report) => {
+    if (report.image) {
+      setSelectedMedia({
+        type: "image",
+        src: `/api/media/images/${report.image}`
+      });
+      return;
+    }
+
+    if (report.video) {
+      setSelectedMedia({
+        type: "video",
+        src: `/api/media/videos/${report.video}`
+      });
+      return;
+    }
+
+    setSelectedMedia(null);
   };
 
   return (
@@ -133,6 +155,21 @@ function AdminPanel() {
         <p>No pending reports available for verification.</p>
       )}
 
+      {selectedMedia && (
+        <div className="media-modal" onClick={() => setSelectedMedia(null)}>
+          <div className="media-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="media-modal-close" onClick={() => setSelectedMedia(null)}>
+              ✕
+            </button>
+            {selectedMedia.type === "image" ? (
+              <img src={selectedMedia.src} alt="Uploaded media preview" className="media-modal-image" />
+            ) : (
+              <video controls className="media-modal-video" src={selectedMedia.src} />
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="report-list">
         {reports.map((report) => (
           <div className="report-card" key={report.id}>
@@ -147,7 +184,25 @@ function AdminPanel() {
             <p><strong>AI Verification :</strong> 🟡 Pending Review</p>
             <p><strong>Description :</strong> {report.description}</p>
 
-            <div className="image-box">Media Preview</div>
+            <div className="media-preview-box">
+              {report.image ? (
+                <>
+                  <img
+                    src={`/api/media/images/${report.image}`}
+                    alt={report.title}
+                    className="media-thumbnail"
+                    onClick={() => openMediaPreview(report)}
+                  />
+                  <p className="media-hint">Click the image to enlarge it</p>
+                </>
+              ) : report.video ? (
+                <button className="media-link-btn" onClick={() => openMediaPreview(report)}>
+                  Open uploaded video
+                </button>
+              ) : (
+                <p className="media-empty">No media uploaded for this report.</p>
+              )}
+            </div>
 
             <div className="button-group">
               <button className="view-btn">View Map</button>
