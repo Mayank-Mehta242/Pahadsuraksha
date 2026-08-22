@@ -35,8 +35,8 @@ export default function PredictionPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-100 mb-2">Check Travel Risk</h1>
-      <p className="text-slate-400 mb-6">
+      <h1 className="text-2xl font-bold text-slate-900 mb-2">Check Travel Risk</h1>
+      <p className="text-slate-700 mb-6">
         Enter the conditions for your location to see an estimated landslide risk level.
       </p>
 
@@ -46,7 +46,7 @@ export default function PredictionPage() {
             <div className="grid sm:grid-cols-2 gap-4">
               {FIELDS.map((f) => (
                 <div key={f.key}>
-                  <label className="text-sm text-slate-400 mb-1.5 block">{f.label}</label>
+                  <label className="text-sm text-slate-700 mb-1.5 block">{f.label}</label>
                   <input
                     type="number"
                     step="any"
@@ -63,7 +63,7 @@ export default function PredictionPage() {
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
               {loading ? "Analyzing…" : "Estimate Risk"}
             </button>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-600">
               Based on historical landslide data from Tehri Garhwal region.
             </p>
           </form>
@@ -71,26 +71,26 @@ export default function PredictionPage() {
 
         <Card title="Risk Estimate">
           {!result && !loading && (
-            <p className="text-sm text-slate-400 py-8 text-center">
+            <p className="text-sm text-slate-700 py-8 text-center">
               Enter the conditions above to see your risk estimate.
             </p>
           )}
-          {loading && <p className="text-sm text-slate-400 py-8 text-center">Calculating…</p>}
+          {loading && <p className="text-sm text-slate-700 py-8 text-center">Calculating…</p>}
           {result && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <RiskBadge level={result.riskLevel} size="lg" />
                 <div className="text-right">
-                  <p className="text-3xl font-bold text-slate-100">{result.confidence}%</p>
-                  <p className="text-xs text-slate-500">confidence</p>
+                  <p className="text-3xl font-bold text-slate-900">{result.confidence}%</p>
+                  <p className="text-xs text-slate-600">confidence</p>
                 </div>
               </div>
 
               <div>
-                <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">Why this risk level</p>
+                <p className="text-xs text-slate-600 uppercase tracking-wide mb-2">Why this risk level</p>
                 <ul className="space-y-2">
                   {result.reasons.map((r) => (
-                    <li key={r} className="flex items-start gap-2 text-sm text-slate-300">
+                    <li key={r} className="flex items-start gap-2 text-sm text-slate-700">
                       <span className="h-1.5 w-1.5 rounded-full bg-forest-500 mt-1.5 shrink-0" />
                       {r}
                     </li>
@@ -99,11 +99,11 @@ export default function PredictionPage() {
               </div>
 
               <div>
-                <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">Important factors</p>
+                <p className="text-xs text-slate-600 uppercase tracking-wide mb-2">Important factors</p>
                 <div className="space-y-2">
                   {result.factorWeights.map((f) => (
                     <div key={f.factor}>
-                      <div className="flex justify-between text-xs text-slate-400 mb-1">
+                      <div className="flex justify-between text-xs text-slate-600 mb-1">
                         <span>{f.factor}</span>
                         <span>{Math.round(f.weight * 100)}%</span>
                       </div>

@@ -43,7 +43,7 @@ export default function HistoricalAnalysisPage() {
   return (
     <div>
       <p>Historical Analysis</p>
-      <h1 className="text-2xl font-display font-bold text-slate-50 mb-6">Landslide records, district-wise</h1>
+      <h1 className="text-2xl font-display font-bold text-slate-900 mb-6">Landslide records, district-wise</h1>
 
       <div className="grid lg:grid-cols-2 gap-6 mb-6">
         <Card title="Monthly landslides (seasonal pattern)">
@@ -65,7 +65,7 @@ export default function HistoricalAnalysisPage() {
               <span className="h-7 w-7 rounded-full bg-forest-800/60 border border-forest-600/40 flex items-center justify-center text-xs font-mono text-forest-500 shrink-0">
                 {i + 1}
               </span>
-              <span className="text-sm text-slate-200">{d}</span>
+              <span className="text-sm text-slate-700">{d}</span>
             </li>
           ))}
         </ol>

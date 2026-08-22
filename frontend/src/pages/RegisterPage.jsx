@@ -48,13 +48,13 @@ export default function RegisterPage() {
   return (
     <div className="min-h-[calc(100vh-4rem)] contour-surface flex items-center justify-center px-4 py-16">
       <div className="glass-panel w-full max-w-lg p-8">
-        <h1 className="text-2xl font-display font-bold text-slate-50 mb-1">Create your account</h1>
-        <p className="text-sm text-slate-400 mb-8">Get location-aware landslide alerts for your district.</p>
+        <h1 className="text-2xl font-display font-bold text-slate-900 mb-1">Create your account</h1>
+        <p className="text-sm text-slate-700 mb-8">Get location-aware landslide alerts for your district.</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs text-slate-400 mb-1.5 block">Full name</label>
+              <label className="text-xs text-slate-700 mb-1.5 block">Full name</label>
               <input
                 required
                 className="input-field"
@@ -63,7 +63,7 @@ export default function RegisterPage() {
               />
             </div>
             <div>
-              <label className="text-xs text-slate-400 mb-1.5 block">Email</label>
+              <label className="text-xs text-slate-700 mb-1.5 block">Email</label>
               <input
                 type="email"
                 required
@@ -76,7 +76,7 @@ export default function RegisterPage() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs text-slate-400 mb-1.5 block">Password</label>
+              <label className="text-xs text-slate-700 mb-1.5 block">Password</label>
               <input
                 type="password"
                 required
@@ -86,7 +86,7 @@ export default function RegisterPage() {
               />
             </div>
             <div>
-              <label className="text-xs text-slate-400 mb-1.5 block">Confirm password</label>
+              <label className="text-xs text-slate-700 mb-1.5 block">Confirm password</label>
               <input
                 type="password"
                 required
@@ -99,7 +99,7 @@ export default function RegisterPage() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs text-slate-400 mb-1.5 block">District</label>
+              <label className="text-xs text-slate-700 mb-1.5 block">District</label>
               <select
                 required
                 className="input-field"
@@ -117,7 +117,7 @@ export default function RegisterPage() {
               </select>
             </div>
             <div>
-              <label className="text-xs text-slate-400 mb-1.5 block">Role</label>
+              <label className="text-xs text-slate-700 mb-1.5 block">Role</label>
               <select className="input-field" value={form.role} onChange={(e) => update("role", e.target.value)}>
                 <option value="driver">Driver</option>
                 <option value="district_officer">District Officer</option>
@@ -126,7 +126,7 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="text-xs text-slate-400 mb-1.5 block">Phone number (optional)</label>
+            <label className="text-xs text-slate-700 mb-1.5 block">Phone number (optional)</label>
             <input className="input-field" value={form.phone} onChange={(e) => update("phone", e.target.value)} />
           </div>
 
@@ -138,7 +138,7 @@ export default function RegisterPage() {
           </button>
         </form>
 
-        <p className="text-sm text-slate-400 text-center mt-6">
+        <p className="text-sm text-slate-700 text-center mt-6">
           Already have an account?{" "}
           <Link to="/login" className="text-forest-500 hover:text-forest-400 font-medium">
             Log in

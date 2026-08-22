@@ -36,7 +36,7 @@ export default function AdminDashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-100 mb-6">District Officer Panel</h1>
+      <h1 className="text-2xl font-bold text-slate-900 mb-6">District Officer Panel</h1>
 
       <Card
         title="Incident reports queue"
@@ -69,8 +69,8 @@ export default function AdminDashboardPage() {
               <tbody>
                 {reports.map((r) => (
                   <tr key={r.id} className="border-b border-white/5 last:border-0">
-                    <td className="py-3 pr-4 text-slate-200">{r.title}</td>
-                    <td className="py-3 pr-4 text-slate-400">{r.district}</td>
+                    <td className="py-3 pr-4 text-slate-800">{r.title}</td>
+                    <td className="py-3 pr-4 text-slate-600">{r.district}</td>
                     <td className="py-3 pr-4">
                       {r.imageUrl ? (
                         <button
@@ -90,7 +90,7 @@ export default function AdminDashboardPage() {
                         <span className="text-xs text-slate-500">No image</span>
                       )}
                     </td>
-                    <td className="py-3 pr-4 text-slate-400 font-mono text-xs">{r.createdAt}</td>
+                    <td className="py-3 pr-4 text-slate-600 font-mono text-xs">{r.createdAt}</td>
                     <td className="py-3 pr-4">
                       <StatusPill status={r.status} />
                     </td>

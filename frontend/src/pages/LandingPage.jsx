@@ -20,10 +20,10 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="bg-[#536b4d] border-b border-[#718569] py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-4xl font-bold text-slate-100 mb-6">
+          <h1 className="text-4xl font-bold text-slate-900 mb-6">
             Check if mountain roads are safe to travel
           </h1>
-          <p className="text-lg text-slate-400 mb-8">
+          <p className="text-lg text-slate-700 mb-8">
             Before you drive through Tehri Garhwal, check the current weather and landslide risk for your route. 
             Enter the conditions and get an estimated risk level in seconds.
           </p>
@@ -44,15 +44,15 @@ export default function LandingPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <div className="card p-4 text-center">
               <p className="text-2xl font-bold text-forest-500">{stats.reportedIncidents}</p>
-              <p className="text-sm text-slate-400 mt-1">Reported incidents</p>
+              <p className="text-sm text-slate-700 mt-1">Reported incidents</p>
             </div>
             <div className="card p-4 text-center">
               <p className="text-2xl font-bold text-forest-500">{stats.monitoredDistricts}</p>
-              <p className="text-sm text-slate-400 mt-1">Districts monitored</p>
+              <p className="text-sm text-slate-700 mt-1">Districts monitored</p>
             </div>
             <div className="card p-4 text-center">
               <p className="text-2xl font-bold text-forest-500">{stats.activeUsers}</p>
-              <p className="text-sm text-slate-400 mt-1">Users</p>
+              <p className="text-sm text-slate-700 mt-1">Users</p>
             </div>
           </div>
         ) : (
@@ -62,11 +62,11 @@ export default function LandingPage() {
 
       {/* Approved Incidents */}
       <section className="max-w-3xl mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold text-slate-100 mb-8">Approved incident reports</h2>
+        <h2 className="text-2xl font-bold text-slate-900 mb-8">Approved incident reports</h2>
         {!incidents ? (
           <LoadingSpinner label="Loading approved incidents" />
         ) : incidents.length === 0 ? (
-          <div className="card text-center text-slate-400">No approved incident reports yet.</div>
+          <div className="card text-center text-slate-700">No approved incident reports yet.</div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             {incidents.map((incident) => (
