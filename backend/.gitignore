@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+instance/
+uploads/incidents/*
+!uploads/incidents/.gitkeep
+.env
+machine_learning/*.pkl
+machine_learning/dataset.csv
