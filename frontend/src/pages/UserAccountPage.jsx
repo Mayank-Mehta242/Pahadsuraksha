@@ -19,8 +19,8 @@ export default function UserAccountPage() {
           <UserRound className="h-6 w-6 text-forest-500" />
         </div>
         <div>
-          <h1 className="text-xl font-bold text-slate-100">{user?.name}</h1>
-          <p className="text-sm text-slate-400">
+          <h1 className="text-xl font-bold text-white">{user?.name}</h1>
+          <p className="text-sm text-slate-200">
             {user?.email} • {user?.district}
           </p>
         </div>
@@ -30,7 +30,7 @@ export default function UserAccountPage() {
         <Card title="Saved Locations" action={<MapPin className="h-4 w-4 text-slate-500" />}>
           <ul className="space-y-2">
             {savedLocations.map((l) => (
-              <li key={l} className="text-sm text-slate-300 bg-slate-800 rounded px-3 py-2">
+              <li key={l} className="text-sm text-white bg-slate-800 rounded px-3 py-2">
                 {l}
               </li>
             ))}
@@ -40,7 +40,7 @@ export default function UserAccountPage() {
         <Card title="Recent Searches" action={<Search className="h-4 w-4 text-slate-500" />}>
           <ul className="space-y-2">
             {recentSearches.map((s) => (
-              <li key={s} className="text-sm text-slate-300 bg-slate-800 rounded px-3 py-2">
+              <li key={s} className="text-sm text-white bg-slate-800 rounded px-3 py-2">
                 {s}
               </li>
             ))}
@@ -51,18 +51,18 @@ export default function UserAccountPage() {
           <ul className="space-y-3">
             {notifications.map((n) => (
               <li key={n.id} className="text-sm">
-                <p className="text-slate-300">{n.text}</p>
-                <p className="text-xs text-slate-500 mt-1">{n.time}</p>
+                <p className="text-slate-100">{n.text}</p>
+                <p className="text-xs text-slate-300 mt-1">{n.time}</p>
               </li>
             ))}
           </ul>
         </Card>
 
         <Card title="About You">
-          <p className="text-sm text-slate-400 mb-3">
+          <p className="text-sm text-slate-200 mb-3">
             Update your profile or manage your saved preferences here.
           </p>
-          <p className="text-xs text-slate-500">Feature coming soon</p>
+          <p className="text-xs text-slate-300">Feature coming soon</p>
         </Card>
       </div>
     </div>

@@ -57,13 +57,13 @@ export default function ReportIncidentPage() {
 
   return (
     <div className="max-w-4xl">
-      <h1 className="text-3xl font-bold text-slate-900 mb-8">Report an Incident</h1>
+      <h1 className="text-3xl font-bold text-white mb-8">Report an Incident</h1>
 
       <div className="grid lg:grid-cols-2 gap-6">
         <Card title="Incident Details">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-sm text-slate-700 mb-1.5 block">Title</label>
+              <label className="text-sm text-slate-200 mb-1.5 block">Title</label>
               <input
                 required
                 className="input-field"
@@ -74,7 +74,7 @@ export default function ReportIncidentPage() {
             </div>
 
             <div>
-              <label className="text-sm text-slate-700 mb-1.5 block">Description</label>
+              <label className="text-sm text-slate-200 mb-1.5 block">Description</label>
               <textarea
                 required
                 rows={3}
@@ -86,10 +86,10 @@ export default function ReportIncidentPage() {
             </div>
 
             <div>
-              <label className="text-sm text-slate-700 mb-1.5 block">Photo (optional)</label>
+              <label className="text-sm text-slate-200 mb-1.5 block">Photo (optional)</label>
               <label className="flex items-center gap-3 border border-dashed border-slate-600 rounded px-4 py-3 cursor-pointer hover:border-forest-500 transition-colors">
                 <ImagePlus className="h-5 w-5 text-slate-500" />
-                <span className="text-sm text-slate-700">
+                <span className="text-sm text-slate-200">
                   {image ? image.name : "Click to upload"}
                 </span>
                 <input type="file" accept="image/*" className="hidden" onChange={handleImage} />
@@ -105,7 +105,7 @@ export default function ReportIncidentPage() {
                 {locating ? "Locating…" : coords ? "Set" : "My Location"}
               </button>
               {coords && (
-                <span className="text-xs text-slate-600">
+                <span className="text-xs text-slate-300">
                   {coords.lat.toFixed(4)}, {coords.lng.toFixed(4)}
                 </span>
               )}
@@ -125,7 +125,7 @@ export default function ReportIncidentPage() {
             />
           </Card>
           <Card>
-            <p className="text-sm text-slate-700">
+            <p className="text-sm text-slate-200">
               Reports are reviewed before appearing on the public map.
             </p>
           </Card>

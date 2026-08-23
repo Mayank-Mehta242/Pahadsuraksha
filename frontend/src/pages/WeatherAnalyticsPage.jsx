@@ -61,7 +61,7 @@ export default function WeatherAnalyticsPage() {
   return (
     <div>
       <p>Weather Analytics</p>
-      <h1 className="text-2xl font-display font-bold text-slate-50 mb-6">{weather.location} — 7-day outlook</h1>
+      <h1 className="text-2xl font-display font-bold text-white mb-6">{weather.location} — 7-day outlook</h1>
 
       <div className="grid sm:grid-cols-4 gap-4 mb-6">
         <Metric icon={CloudRain} label="Condition" value={weather.condition} />
@@ -96,8 +96,8 @@ function Metric({ icon: Icon, label, value }) {
     <div className="glass-panel p-4 flex items-center gap-3">
       <Icon className="h-5 w-5 text-forest-500 shrink-0" />
       <div>
-        <p className="text-xs text-slate-500">{label}</p>
-        <p className="text-sm font-mono text-slate-100">{value}</p>
+        <p className="text-xs text-slate-300">{label}</p>
+        <p className="text-sm font-mono text-white">{value}</p>
       </div>
     </div>
   );

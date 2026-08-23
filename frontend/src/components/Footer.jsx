@@ -9,22 +9,22 @@ export default function Footer() {
         <div>
           <div className="flex items-center gap-2 mb-3">
             <img src={logo} alt="PahadSuraksha logo" className="h-7 w-7 rounded object-cover" />
-            <span className="font-bold text-slate-100">PahadSuraksha</span>
+            <span className="font-bold text-white">PahadSuraksha</span>
           </div>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-200">
             Helps drivers check weather and landslide risk before traveling mountain roads in Tehri Garhwal.
           </p>
         </div>
 
         <div>
-          <p className="font-semibold text-slate-100 mb-3">Emergency Contacts</p>
+          <p className="font-semibold text-white mb-3">Emergency Contacts</p>
           <ul className="space-y-2">
             {emergencyContacts.map((c) => (
               <li key={c.number} className="flex items-start gap-2 text-sm">
                 <PhoneCall className="h-4 w-4 text-risk-high shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-slate-400">{c.label}</span>
-                  <span className="font-mono text-slate-100 ml-2">{c.number}</span>
+                  <span className="text-slate-200">{c.label}</span>
+                  <span className="font-mono text-white ml-2">{c.number}</span>
                 </div>
               </li>
             ))}
@@ -32,7 +32,7 @@ export default function Footer() {
         </div>
 
       </div>
-      <div className="border-t border-slate-700 py-4 text-center text-xs text-slate-500">
+      <div className="border-t border-slate-700 py-4 text-center text-xs text-slate-300">
         © {new Date().getFullYear()} PahadSuraksha
       </div>
     </footer>

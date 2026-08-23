@@ -7,15 +7,20 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply text-slate-800 font-body antialiased;
+    @apply font-body antialiased;
+    color: #ffffff;
     background: #b7c5ad;
   }
   h1, h2, h3, h4 {
-    @apply font-display font-bold text-slate-800;
+    @apply font-display font-bold;
+    color: #ffffff;
   }
   :focus-visible {
     outline: 2px solid #2A9D6B;
     outline-offset: 2px;
+  }
+  body, body * {
+    color: inherit;
   }
 }
 

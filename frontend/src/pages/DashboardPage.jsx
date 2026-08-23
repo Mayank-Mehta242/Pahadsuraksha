@@ -59,8 +59,8 @@ export default function DashboardPage() {
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Risk Map</h1>
-          <p className="text-slate-700 text-sm mt-1">Click on a district to see conditions and risk level</p>
+          <h1 className="text-2xl font-bold text-white">Risk Map</h1>
+          <p className="text-slate-200 text-sm mt-1">Click on a district to see conditions and risk level</p>
         </div>
         <div className="flex gap-2">
           <div className="relative">
@@ -91,7 +91,7 @@ export default function DashboardPage() {
               userPosition={position}
             />
           )}
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-600">
             Click anywhere on the map to preview that area's nearest risk reading, or search a district by name.
           </p>
           {locationError && <p className="text-xs text-risk-high">{locationError}</p>}
@@ -114,7 +114,7 @@ export default function DashboardPage() {
                 </div>
               ) : weatherError ? (
                 <div className="space-y-3">
-                  <p className="text-sm text-slate-400">{weatherError}</p>
+                  <p className="text-sm text-slate-200">{weatherError}</p>
                   <button
                     type="button"
                     onClick={() => setWeatherRequest((request) => request + 1)}
@@ -146,8 +146,8 @@ export default function DashboardPage() {
 function Metric({ icon: Icon, label, value }) {
   return (
     <div>
-      <p className="text-xs text-slate-600 mb-0.5">{label}</p>
-      <p className="text-sm font-medium text-slate-800">{value}</p>
+      <p className="text-xs text-slate-300 mb-0.5">{label}</p>
+      <p className="text-sm font-medium text-white">{value}</p>
     </div>
   );
 }
@@ -156,7 +156,7 @@ function LegendRow({ color, label }) {
   return (
     <div className="flex items-center gap-2">
       <span className={`h-2 w-2 rounded-full ${color}`} />
-      <span className="text-slate-700">{label}</span>
+      <span className="text-slate-200">{label}</span>
     </div>
   );
 }
