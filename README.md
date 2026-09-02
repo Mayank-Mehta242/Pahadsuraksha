@@ -63,6 +63,50 @@ Local officials can use the app to:
 
 A driver planning to travel from Dehradun to Joshimath can check the route on the web app before starting the journey. If heavy rainfall or previous landslide reports are detected on the route, the app can show a warning and suggest caution. If another driver reports a road blockage, officials can verify the report and update the route status for other users.
 
+## Technologies Used
+
+This project uses a full-stack web application architecture combining a React frontend, a Flask backend, and a machine learning component for risk prediction.
+
+### Frontend
+- React
+- Vite
+- JavaScript (JSX)
+- Tailwind CSS
+- React Router
+- Leaflet + react-leaflet for map visualization
+
+### Backend
+- Python
+- Flask
+- Flask-SQLAlchemy
+- Flask-JWT-Extended
+- Flask-CORS
+- Flask-Migrate
+- SQLite (default database)
+- PostgreSQL support via psycopg2-binary
+
+### Database
+- SQLite for local development
+- PostgreSQL-ready configuration for production deployment
+
+### Machine Learning / Data Processing
+- Python
+- scikit-learn
+- pandas
+- NumPy
+- joblib
+
+### API & External Services
+- OpenWeather API for weather data
+- REST API communication between frontend and backend
+- Python requests library
+
+### Dev & Deployment Tools
+- npm / Vite for frontend development
+- Python virtual environment for backend
+- Gunicorn for production serving
+- dotenv for environment variables
+
 ## Main Goal
 
 The main goal of this project is to improve road safety in landslide-prone areas of Uttarakhand by providing timely, route-specific, and easy-to-understand risk information to drivers and officials.
