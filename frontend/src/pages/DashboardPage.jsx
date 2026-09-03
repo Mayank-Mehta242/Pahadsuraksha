@@ -62,11 +62,11 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold text-white">Risk Map</h1>
           <p className="text-slate-200 text-sm mt-1">Click on a district to see conditions and risk level</p>
         </div>
-        <div className="flex gap-2">
-          <div className="relative">
+        <div className="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+          <div className="relative flex-1 sm:flex-none">
             <Search className="h-4 w-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
-              className="input-field pl-9 w-56"
+              className="input-field pl-9 w-full sm:w-56"
               placeholder="Search district…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}

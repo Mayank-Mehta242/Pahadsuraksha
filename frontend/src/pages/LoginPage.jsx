@@ -27,8 +27,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-900 flex items-center justify-center px-4 py-16">
-      <div className="card w-full max-w-md">
+    <div className="min-h-[calc(100vh-4rem)] contour-surface flex items-center justify-center px-4 py-16">
+      <div className="glass-panel w-full max-w-md p-7 sm:p-8">
         <h1 className="text-2xl font-bold text-white mb-2">Login</h1>
         <p className="text-sm text-slate-200 mb-6">Sign in to report incidents and save locations.</p>
 

@@ -14,8 +14,8 @@ export default function Navbar() {
     : NAV_LINKS;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-700 bg-[#142016]">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-40 border-b border-slate-700/80 bg-[#142016]/95 backdrop-blur">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-[4.5rem] flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 shrink-0">
           <img src={logo} alt="PahadSuraksha logo" className="h-8 w-8 rounded object-cover" />
           <span className="font-display font-bold text-lg text-slate-100">
@@ -29,8 +29,8 @@ export default function Navbar() {
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `px-3 py-2 text-sm rounded transition-colors ${
-                  isActive ? "text-forest-500 bg-forest-500/10" : "text-slate-300 hover:text-slate-100"
+                `px-3 py-2 text-sm rounded-xl transition-all duration-200 ${
+                  isActive ? "text-forest-500 bg-forest-500/15" : "text-slate-300 hover:text-slate-100 hover:bg-slate-800/70"
                 }`
               }
             >
@@ -60,7 +60,7 @@ export default function Navbar() {
           )}
         </div>
 
-        <button className="md:hidden text-slate-400" onClick={() => setOpen((o) => !o)} aria-label="Toggle menu">
+        <button className="md:hidden text-slate-300 transition-colors hover:text-white" onClick={() => setOpen((o) => !o)} aria-label="Toggle menu">
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </nav>
@@ -73,8 +73,8 @@ export default function Navbar() {
               to={link.to}
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
-                `block px-3 py-2 rounded text-sm ${
-                  isActive ? "text-forest-500 bg-forest-500/10" : "text-slate-300 hover:text-slate-100"
+                `block px-3 py-2.5 rounded-xl text-sm transition-all duration-200 ${
+                  isActive ? "text-forest-500 bg-forest-500/15" : "text-slate-300 hover:text-slate-100 hover:bg-slate-800/70"
                 }`
               }
             >

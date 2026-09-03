@@ -8,12 +8,16 @@
   }
   body {
     @apply font-body antialiased;
-    color: #ffffff;
-    background: #b7c5ad;
+    color: #e2e8f0;
+    background: linear-gradient(180deg, #162418 0%, #1e2d22 55%, #263428 100%);
+    min-height: 100vh;
   }
   h1, h2, h3, h4 {
-    @apply font-display font-bold;
+    @apply font-display font-bold tracking-tight;
     color: #ffffff;
+  }
+  p {
+    line-height: 1.65;
   }
   :focus-visible {
     outline: 2px solid #2A9D6B;
@@ -25,34 +29,48 @@
 }
 
 @layer components {
+  .contour-surface {
+    background:
+      radial-gradient(1200px 600px at 0% 0%, rgba(42, 157, 107, 0.15), transparent 60%),
+      radial-gradient(800px 500px at 100% 10%, rgba(148, 163, 184, 0.1), transparent 65%),
+      linear-gradient(180deg, #18271b 0%, #1f2f23 60%, #26372a 100%);
+  }
+
+  .glass-panel {
+    @apply border border-slate-700/90 rounded-2xl shadow-lg shadow-black/25;
+    background: linear-gradient(180deg, rgba(45, 56, 43, 0.9) 0%, rgba(38, 48, 37, 0.94) 100%);
+    backdrop-filter: blur(6px);
+  }
+
   .card {
-    @apply border border-slate-700 rounded-lg p-6;
-    background: #303a2e;
+    @apply glass-panel p-6 transition-all duration-200;
+  }
+
+  .card:hover {
+    @apply -translate-y-0.5 shadow-xl;
   }
 
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 bg-forest-600 hover:bg-forest-500
-      text-white font-semibold px-4 py-2 rounded transition-colors duration-150 disabled:opacity-50;
+      text-white font-semibold px-4 py-2.5 rounded-xl transition-all duration-200
+      hover:-translate-y-0.5 hover:shadow-lg hover:shadow-forest-500/20 disabled:opacity-50 disabled:translate-y-0 disabled:shadow-none;
   }
 
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 border border-slate-600
-      hover:bg-slate-800 text-slate-100 font-semibold px-4 py-2 rounded transition-colors duration-150;
+      hover:bg-slate-800 text-slate-100 font-semibold px-4 py-2.5 rounded-xl transition-all duration-200
+      hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/25;
   }
 
   .input-field {
-    @apply w-full rounded border border-slate-600 px-3 py-2
-      text-slate-100 placeholder:text-slate-500 focus:border-forest-500 outline-none;
-    background: #1d281f;
+    @apply w-full rounded-xl border border-slate-600 px-3 py-2.5
+      text-slate-100 placeholder:text-slate-400 focus:border-forest-500 focus:ring-2 focus:ring-forest-500/20 outline-none transition-all duration-150;
+    background: #202d23;
   }
 }
 
 @layer utilities {
-  .bg-slate-950 {
-    background-color: #1d3022 !important;
-  }
-
-  .bg-slate-900 {
-    background-color: #38513a !important;
+  .text-muted {
+    color: #cbd5e1;
   }
 }
