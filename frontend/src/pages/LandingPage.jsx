@@ -15,12 +15,12 @@ export default function LandingPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-[#536b4d] border-b border-[#718569] py-20 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-4xl font-bold text-white mb-6">
+      <section className="border-b border-slate-700/80 py-16 sm:py-20 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
             Check if mountain roads are safe to travel
           </h1>
-          <p className="text-lg text-slate-200 mb-8">
+          <p className="text-base sm:text-lg text-slate-200 mb-8 max-w-2xl mx-auto">
             Before you drive through Tehri Garhwal, check the current weather and landslide risk for your route. 
             Enter the conditions and get an estimated risk level in seconds.
           </p>
@@ -36,16 +36,16 @@ export default function LandingPage() {
       </section>
 
       {/* Approved Incidents */}
-      <section className="max-w-3xl mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold text-slate-900 mb-8">Approved incident reports</h2>
+      <section className="max-w-5xl mx-auto px-4 py-12 sm:py-14">
+        <h2 className="text-2xl font-bold text-white mb-8">Approved incident reports</h2>
         {!incidents ? (
           <LoadingSpinner label="Loading approved incidents" />
         ) : incidents.length === 0 ? (
-          <div className="card bg-[#303a2e] text-center text-white">No approved incident reports yet.</div>
+          <div className="card text-center text-white">No approved incident reports yet.</div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {incidents.map((incident) => (
-              <Card key={incident.id} className="p-5 bg-[#303a2e]">
+              <Card key={incident.id} className="p-5">
                 {incident.imageUrl && (
                   <img
                     src={incident.imageUrl}

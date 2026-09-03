@@ -4,7 +4,7 @@ import logo from "../ChatGPT.png";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-700 bg-slate-900">
+    <footer className="border-t border-slate-700/80 bg-slate-900/95 backdrop-blur">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid gap-8 md:grid-cols-2">
         <div>
           <div className="flex items-center gap-2 mb-3">
@@ -20,7 +20,7 @@ export default function Footer() {
           <p className="font-semibold text-white mb-3">Emergency Contacts</p>
           <ul className="space-y-2">
             {emergencyContacts.map((c) => (
-              <li key={c.number} className="flex items-start gap-2 text-sm">
+              <li key={c.number} className="flex items-start gap-2 text-sm p-2 rounded-lg hover:bg-slate-800/60 transition-colors">
                 <PhoneCall className="h-4 w-4 text-risk-high shrink-0 mt-0.5" />
                 <div>
                   <span className="text-slate-200">{c.label}</span>
