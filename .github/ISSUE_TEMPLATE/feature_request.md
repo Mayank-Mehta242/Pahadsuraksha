@@ -7,15 +7,15 @@ assignees: ''
 
 ---
 
-## ✨ Feature Request
+Feature Request 
 
-### 📝 Problem Statement
+ Problem Statement
 <!-- Clearly describe the problem or limitation this feature will solve. -->
 
-### 💡 Proposed Solution
+ Proposed Solution
 <!-- Describe the feature and how it should solve the problem. -->
 
-### ✅ Acceptance Criteria
+ Acceptance Criteria
 - [ ] The feature works as described.
 - [ ] All required functionality is implemented.
 - [ ] The feature works without breaking existing functionality.
