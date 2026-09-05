@@ -1,15 +1,32 @@
 import { useEffect, useState } from "react";
-import { Search, LocateFixed, Droplets, Thermometer, Wind, Mountain as MountainIcon, History } from "lucide-react";
+import {
+  Search,
+  LocateFixed,
+  Droplets,
+  Thermometer,
+  Wind,
+  Mountain as MountainIcon,
+  History,
+  MapPinned,
+  AlertTriangle,
+  Users,
+} from "lucide-react";
 import MapView from "../components/MapView.jsx";
 import Card from "../components/Card.jsx";
 import RiskBadge from "../components/RiskBadge.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
+import StatCard from "../components/StatCard.jsx";
 import { districtService } from "../services/districtService.js";
 import { weatherService } from "../services/weatherService.js";
 import { useGeolocation } from "../hooks/useGeolocation.js";
 
 export default function DashboardPage() {
   const [districts, setDistricts] = useState([]);
+  const [districtsLoading, setDistrictsLoading] = useState(true);
+  const [districtsError, setDistrictsError] = useState("");
+  const [stats, setStats] = useState(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [statsError, setStatsError] = useState("");
   const [selected, setSelected] = useState(null);
   const [weather, setWeather] = useState(null);
   const [weatherError, setWeatherError] = useState("");
@@ -18,20 +35,56 @@ export default function DashboardPage() {
   const { position, error: locationError, locate, locating } = useGeolocation();
 
   useEffect(() => {
-    districtService.list().then((list) => {
-      setDistricts(list);
-      setSelected(list[0]);
-    });
+    let active = true;
+    setDistrictsLoading(true);
+    setDistrictsError("");
+    districtService
+      .list()
+      .then((list) => {
+        if (!active) return;
+        setDistricts(list);
+        setSelected((current) => current ?? list[0] ?? null);
+      })
+      .catch(() => {
+        if (active) setDistrictsError("District risk data is unavailable right now.");
+      })
+      .finally(() => {
+        if (active) setDistrictsLoading(false);
+      });
+
+    districtService
+      .stats()
+      .then((data) => {
+        if (active) setStats(data);
+      })
+      .catch(() => {
+        if (active) setStatsError("Dashboard summary is unavailable right now.");
+      })
+      .finally(() => {
+        if (active) setStatsLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   useEffect(() => {
     if (!selected) return;
     setWeather(null);
     setWeatherError("");
+    let active = true;
     weatherService
       .getWeather(selected.lat, selected.lng)
-      .then(setWeather)
-      .catch(() => setWeatherError("Weather conditions are unavailable right now."));
+      .then((data) => {
+        if (active) setWeather(data);
+      })
+      .catch(() => {
+        if (active) setWeatherError("Weather conditions are unavailable right now.");
+      });
+    return () => {
+      active = false;
+    };
   }, [selected, weatherRequest]);
 
   useEffect(() => {
@@ -79,10 +132,37 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      <div className="grid sm:grid-cols-3 gap-4 mb-6">
+        {statsLoading ? (
+          <div className="sm:col-span-3">
+            <LoadingSpinner label="Loading dashboard summary" />
+          </div>
+        ) : statsError ? (
+          <p className="sm:col-span-3 text-sm text-slate-200">{statsError}</p>
+        ) : (
+          <>
+            <StatCard icon={MapPinned} value={stats?.monitoredDistricts ?? 0} label="Monitored districts" />
+            <StatCard icon={AlertTriangle} value={stats?.reportedIncidents ?? 0} label="Reported incidents" />
+            <StatCard icon={Users} value={stats?.activeUsers ?? 0} label="Active users" />
+          </>
+        )}
+      </div>
+
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-3">
-          {districts.length === 0 ? (
+          {districtsLoading ? (
             <LoadingSpinner label="Loading district data" />
+          ) : districtsError ? (
+            <Card title="Unable to load the risk map">
+              <p className="text-sm text-slate-200">{districtsError}</p>
+              <button type="button" onClick={() => window.location.reload()} className="btn-secondary mt-3 text-sm">
+                Try again
+              </button>
+            </Card>
+          ) : districts.length === 0 ? (
+            <Card title="No district data">
+              <p className="text-sm text-slate-200">No monitored districts are available.</p>
+            </Card>
           ) : (
             <MapView
               districts={filtered}
