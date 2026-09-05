@@ -16,7 +16,7 @@ import os
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import StratifiedKFold, cross_val_score, train_test_split
 from sklearn.metrics import classification_report, accuracy_score
 import joblib
 
@@ -93,17 +93,21 @@ def train():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=RANDOM_STATE, stratify=y)
 
     model = RandomForestClassifier(
-        n_estimators=300,
-        max_depth=12,
-        min_samples_leaf=4,
+        n_estimators=500,
+        max_depth=None,
+        min_samples_leaf=1,
         random_state=RANDOM_STATE,
-        class_weight="balanced",
+        n_jobs=-1,
     )
     model.fit(X_train, y_train)
 
     preds = model.predict(X_test)
     print("Accuracy:", round(accuracy_score(y_test, preds) * 100, 2), "%")
     print(classification_report(y_test, preds))
+
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=RANDOM_STATE)
+    cv_scores = cross_val_score(model, X, y, cv=cv, scoring="accuracy", n_jobs=-1)
+    print("5-fold CV accuracy:", round(cv_scores.mean() * 100, 2), "% (+/-", round(cv_scores.std() * 100, 2), ")")
 
     joblib.dump(model, MODEL_PATH)
     print(f"Model saved to {MODEL_PATH}")

@@ -14,17 +14,40 @@ const FIELDS = [
   { key: "historicalIncidents", label: "Historical incidents nearby", placeholder: "e.g. 4" },
 ];
 
+const INPUT_RANGES = {
+  rainfall: 80,
+  humidity: 100,
+  temperature: 40,
+  elevation: 3800,
+  slope: 60,
+  historicalIncidents: 8,
+};
+
+const INPUT_UNITS = {
+  rainfall: "mm",
+  humidity: "%",
+  temperature: "°C",
+  elevation: "m",
+  slope: "°",
+  historicalIncidents: "events",
+};
+
 export default function PredictionPage() {
   const [form, setForm] = useState({});
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [submittedInputs, setSubmittedInputs] = useState(null);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
     setResult(null);
     try {
-      const output = await predictionService.predict(form);
+      const inputs = Object.fromEntries(
+        FIELDS.map(({ key }) => [key, Number(form[key])])
+      );
+      const output = await predictionService.predict(inputs);
+      setSubmittedInputs(inputs);
       setResult(output);
     } catch (err) {
       toast.error("Could not get risk estimate. Please try again.");
@@ -99,7 +122,34 @@ export default function PredictionPage() {
               </div>
 
               <div>
-                <p className="text-xs text-slate-300 uppercase tracking-wide mb-2">Important factors</p>
+                <p className="text-xs text-slate-300 uppercase tracking-wide mb-2">Entered conditions</p>
+                <div className="space-y-2">
+                  {FIELDS.map((field) => {
+                    const value = submittedInputs?.[field.key] ?? 0;
+                    const percentage = Math.min(
+                      100,
+                      Math.max(0, (value / INPUT_RANGES[field.key]) * 100)
+                    );
+                    return (
+                      <div key={field.key}>
+                        <div className="flex justify-between text-xs text-slate-300 mb-1">
+                          <span>{field.label.replace(/ \(.+\)/, "")}</span>
+                          <span>{value} {INPUT_UNITS[field.key]}</span>
+                        </div>
+                        <div className="h-1.5 rounded bg-slate-700 overflow-hidden">
+                          <div
+                            className="h-full bg-forest-500 transition-all duration-500"
+                            style={{ width: `${percentage}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs text-slate-300 uppercase tracking-wide mb-2">Model importance</p>
                 <div className="space-y-2">
                   {result.factorWeights.map((f) => (
                     <div key={f.factor}>
