@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Check, X, Eye, Trash2, FileDown, FileSpreadsheet } from "lucide-react";
+import { Check, X, Eye, Trash2, FileDown, FileSpreadsheet, Pencil, Save, Undo2 } from "lucide-react";
 import Card from "../components/Card.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import { incidentService } from "../services/incidentService.js";
@@ -9,29 +9,59 @@ export default function AdminDashboardPage() {
   const [reports, setReports] = useState(null);
   const [preview, setPreview] = useState(null);
   const [comments, setComments] = useState({});
+  const [editing, setEditing] = useState(null);
 
   useEffect(() => {
-    incidentService.list().then(setReports);
+    incidentService.listForAdmin().then(setReports).catch(() => toast.error("Could not load reports."));
   }, []);
 
   async function handleApprove(id) {
-    const comment = comments[id] || "";
-    const updated = await incidentService.approve(id, comment);
-    setReports((r) => r.map((rep) => (rep.id === id ? { ...rep, ...updated } : rep)));
-    toast.success("Report approved.");
+    try {
+      const updated = await incidentService.approve(id, comments[id] || "");
+      setReports((r) => r.map((rep) => (rep.id === id ? { ...rep, ...updated } : rep)));
+      toast.success("Report approved.");
+    } catch {
+      toast.error("Could not approve report.");
+    }
   }
 
   async function handleReject(id) {
-    const comment = comments[id] || "";
-    const updated = await incidentService.reject(id, comment);
-    setReports((r) => r.map((rep) => (rep.id === id ? { ...rep, ...updated } : rep)));
-    toast.success("Report rejected.");
+    try {
+      const updated = await incidentService.reject(id, comments[id] || "");
+      setReports((r) => r.map((rep) => (rep.id === id ? { ...rep, ...updated } : rep)));
+      toast.success("Report rejected.");
+    } catch {
+      toast.error("Could not reject report.");
+    }
+  }
+
+  async function handleUpdate(id) {
+    try {
+      const updated = await incidentService.update(id, editing);
+      setReports((r) => r.map((rep) => (rep.id === id ? { ...rep, ...updated } : rep)));
+      setEditing(null);
+      toast.success("Report updated and returned to review.");
+    } catch {
+      toast.error("Could not update report.");
+    }
   }
 
   async function handleDelete(id) {
-    await incidentService.delete(id);
-    setReports((r) => r.filter((rep) => rep.id !== id));
-    toast.success("Report deleted.");
+    try {
+      await incidentService.delete(id);
+      setReports((r) => r.filter((rep) => rep.id !== id));
+      toast.success("Report deleted.");
+    } catch {
+      toast.error("Could not delete report.");
+    }
+  }
+
+  async function handleExport(format) {
+    try {
+      await incidentService.exportFile(format);
+    } catch {
+      toast.error(`Could not export ${format.toUpperCase()}.`);
+    }
   }
 
   return (
@@ -42,10 +72,10 @@ export default function AdminDashboardPage() {
         title="Incident reports queue"
         action={
           <div className="flex gap-2">
-            <button className="btn-secondary !px-3 !py-1.5 text-xs">
+            <button onClick={() => handleExport("csv")} className="btn-secondary !px-3 !py-1.5 text-xs">
               <FileSpreadsheet className="h-3.5 w-3.5" /> Export CSV
             </button>
-            <button className="btn-secondary !px-3 !py-1.5 text-xs">
+            <button onClick={() => handleExport("pdf")} className="btn-secondary !px-3 !py-1.5 text-xs">
               <FileDown className="h-3.5 w-3.5" /> Export PDF
             </button>
           </div>
@@ -69,8 +99,24 @@ export default function AdminDashboardPage() {
               <tbody>
                 {reports.map((r) => (
                   <tr key={r.id} className="border-b border-white/5 last:border-0">
-                    <td className="py-3 pr-4 text-white">{r.title}</td>
-                    <td className="py-3 pr-4 text-slate-200">{r.district}</td>
+                    <td className="py-3 pr-4 text-white">
+                      {editing?.id === r.id ? (
+                        <input
+                          className="input-field text-xs"
+                          value={editing.title}
+                          onChange={(e) => setEditing({ ...editing, title: e.target.value })}
+                        />
+                      ) : r.title}
+                    </td>
+                    <td className="py-3 pr-4 text-slate-200">
+                      {editing?.id === r.id ? (
+                        <input
+                          className="input-field text-xs"
+                          value={editing.district || ""}
+                          onChange={(e) => setEditing({ ...editing, district: e.target.value })}
+                        />
+                      ) : r.district}
+                    </td>
                     <td className="py-3 pr-4">
                       {r.imageUrl ? (
                         <button
@@ -95,7 +141,24 @@ export default function AdminDashboardPage() {
                       <StatusPill status={r.status} />
                     </td>
                     <td className="py-3">
-                      {r.status === "pending" ? (
+                      {editing?.id === r.id ? (
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleUpdate(r.id)}
+                            className="p-1.5 rounded-md bg-risk-low/15 text-risk-low hover:bg-risk-low/25"
+                            aria-label={`Save changes to ${r.title}`}
+                          >
+                            <Save className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            onClick={() => setEditing(null)}
+                            className="p-1.5 rounded-md bg-slate-500/15 text-slate-200 hover:bg-slate-500/25"
+                            aria-label={`Cancel editing ${r.title}`}
+                          >
+                            <Undo2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      ) : r.status === "pending" ? (
                         <div className="min-w-56 space-y-2">
                           <textarea
                             value={comments[r.id] || ""}
@@ -122,16 +185,25 @@ export default function AdminDashboardPage() {
                           </button>
                           </div>
                         </div>
-                      ) : r.status === "approved" ? (
-                        <button
-                          onClick={() => handleDelete(r.id)}
-                          className="p-1.5 rounded-md bg-risk-extreme/15 text-risk-extreme hover:bg-risk-extreme/25"
-                          aria-label={`Delete ${r.title}`}
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </button>
                       ) : (
-                        <span className="text-xs text-slate-300">—</span>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setEditing({ id: r.id, title: r.title, district: r.district || "" })}
+                            className="p-1.5 rounded-md bg-forest-500/15 text-forest-400 hover:bg-forest-500/25"
+                            aria-label={`Edit ${r.title}`}
+                          >
+                            <Pencil className="h-3.5 w-3.5" />
+                          </button>
+                          {r.status === "approved" && (
+                            <button
+                              onClick={() => handleDelete(r.id)}
+                              className="p-1.5 rounded-md bg-risk-extreme/15 text-risk-extreme hover:bg-risk-extreme/25"
+                              aria-label={`Delete ${r.title}`}
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </button>
+                          )}
+                        </div>
                       )}
                     </td>
                   </tr>

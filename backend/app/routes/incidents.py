@@ -2,7 +2,7 @@ import os
 import uuid
 
 from flask import Blueprint, request, jsonify, current_app, send_from_directory
-from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
+from flask_jwt_extended import get_jwt_identity, verify_jwt_in_request
 from werkzeug.utils import secure_filename
 
 from app.extensions import db
@@ -20,9 +20,11 @@ def _allowed(filename):
 
 @incidents_bp.get("")
 def list_incidents():
-    # Public map only shows approved reports; logged-in users could later
-    # see their own pending ones too — left as a TODO for auth-scoped filtering.
     status = request.args.get("status")
+    if status and status != "approved":
+        return jsonify({"error": "Only approved reports are public."}), 403
+    status = "approved"
+
     query = Incident.query
     if status:
         query = query.filter_by(status=status)
@@ -96,6 +98,37 @@ def reject(incident_id):
     body = request.get_json(silent=True) or {}
     incident.status = "rejected"
     incident.review_comment = (body.get("comment") or "").strip()[:2000] or None
+    db.session.commit()
+    return jsonify(incident.to_dict()), 200
+
+
+@incidents_bp.patch("/<incident_id>")
+@role_required("district_officer")
+def update_incident(incident_id):
+    incident = Incident.query.get_or_404(incident_id)
+    body = request.get_json(silent=True) or {}
+
+    for field in ("title", "description", "district"):
+        if field in body:
+            value = body[field]
+            if field == "title" and not isinstance(value, str):
+                return jsonify({"error": "Title must be text."}), 400
+            setattr(incident, field, value.strip() if isinstance(value, str) else value)
+
+    for field in ("lat", "lng"):
+        if field in body:
+            try:
+                setattr(incident, field, float(body[field]))
+            except (TypeError, ValueError):
+                return jsonify({"error": f"{field} must be a number."}), 400
+
+    if not incident.title:
+        return jsonify({"error": "Title is required."}), 400
+
+    # Any content correction requires a fresh review.
+    if incident.status != "pending":
+        incident.status = "pending"
+        incident.review_comment = None
     db.session.commit()
     return jsonify(incident.to_dict()), 200
 

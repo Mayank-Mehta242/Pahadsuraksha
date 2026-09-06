@@ -11,6 +11,12 @@ export const incidentService = {
     return data;
   },
 
+  async listForAdmin() {
+    if (USE_MOCK) return mockReports;
+    const { data } = await api.get("/admin/incidents");
+    return data;
+  },
+
   async submit(formData) {
     if (USE_MOCK) {
       await new Promise((r) => setTimeout(r, 700));
@@ -32,6 +38,22 @@ export const incidentService = {
     if (USE_MOCK) return { id, status: "rejected", reviewComment: comment };
     const { data } = await api.patch(`/incidents/${id}/reject`, { comment });
     return data;
+  },
+
+  async update(id, fields) {
+    if (USE_MOCK) return { id, ...fields, status: "pending", reviewComment: null };
+    const { data } = await api.patch(`/incidents/${id}`, fields);
+    return data;
+  },
+
+  async exportFile(format) {
+    const response = await api.get(`/admin/export.${format}`, { responseType: "blob" });
+    const url = URL.createObjectURL(response.data);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `pahadsuraksha_incidents.${format}`;
+    link.click();
+    URL.revokeObjectURL(url);
   },
 
   async delete(id) {

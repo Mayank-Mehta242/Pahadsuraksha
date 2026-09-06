@@ -11,7 +11,6 @@ const initialForm = {
   password: "",
   confirmPassword: "",
   district: "",
-  role: "driver",
   phone: "",
 };
 
@@ -114,13 +113,6 @@ export default function RegisterPage() {
                     {d.name}
                   </option>
                 ))}
-              </select>
-            </div>
-            <div>
-              <label className="text-xs text-slate-200 mb-1.5 block">Role</label>
-              <select className="input-field" value={form.role} onChange={(e) => update("role", e.target.value)}>
-                <option value="driver">Driver</option>
-                <option value="district_officer">District Officer</option>
               </select>
             </div>
           </div>

@@ -18,8 +18,8 @@ def register():
     if User.query.filter_by(email=body["email"].lower().strip()).first():
         return jsonify({"error": "An account with this email already exists."}), 409
 
-    requested_role = body.get("role", "driver")
-    role = requested_role if requested_role in {"driver", "district_officer"} else "driver"
+    # Officer accounts are provisioned by seed/admin tooling, never by public signup.
+    role = "driver"
 
     user = User(
         name=body["name"].strip(),

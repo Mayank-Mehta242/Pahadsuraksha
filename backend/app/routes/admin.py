@@ -10,6 +10,13 @@ from app.utils.decorators import role_required
 admin_bp = Blueprint("admin", __name__, url_prefix="/api/admin")
 
 
+@admin_bp.get("/incidents")
+@role_required("district_officer")
+def list_incidents():
+    incidents = Incident.query.order_by(Incident.created_at.desc()).all()
+    return jsonify([incident.to_dict() for incident in incidents]), 200
+
+
 @admin_bp.get("/users")
 @role_required("district_officer")
 def list_users():
