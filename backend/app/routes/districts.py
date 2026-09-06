@@ -14,10 +14,12 @@ def list_districts():
 
 @districts_bp.get("/stats")
 def stats():
+    monitored_district = District.query.order_by(District.name.asc()).first()
     return (
         jsonify(
             {
                 "monitoredDistricts": District.query.count(),
+                "monitoredDistrictName": monitored_district.name if monitored_district else None,
                 "reportedIncidents": Incident.query.count(),
                 "activeUsers": User.query.count(),
             }

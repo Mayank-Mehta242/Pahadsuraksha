@@ -141,7 +141,7 @@ export default function DashboardPage() {
           <p className="sm:col-span-3 text-sm text-slate-200">{statsError}</p>
         ) : (
           <>
-            <StatCard icon={MapPinned} value={stats?.monitoredDistricts ?? 0} label="Monitored districts" />
+            <StatCard icon={MapPinned} value={stats?.monitoredDistrictName || "Tehri Garhwal"} label="Monitored district" />
             <StatCard icon={AlertTriangle} value={stats?.reportedIncidents ?? 0} label="Reported incidents" />
             <StatCard icon={Users} value={stats?.activeUsers ?? 0} label="Active users" />
           </>

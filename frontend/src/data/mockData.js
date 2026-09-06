@@ -7,6 +7,7 @@ export const mockDistricts = [
 
 export const mockStats = {
   monitoredDistricts: 1,
+  monitoredDistrictName: "Tehri Garhwal",
   reportedIncidents: 56,
   activeUsers: 234,
 };
