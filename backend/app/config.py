@@ -16,7 +16,9 @@ class Config:
 
     FRONTEND_ORIGIN = os.environ.get("FRONTEND_ORIGIN", "http://localhost:5173")
 
-    OPENWEATHER_API_KEY = os.environ.get("OPENWEATHER_API_KEY", "")
+    RAPIDAPI_KEY = os.environ.get("RAPIDAPI_KEY", "")
+    RAPIDAPI_HOST = os.environ.get("RAPIDAPI_HOST", "open-weather13.p.rapidapi.com")
+    RAPIDAPI_UA = os.environ.get("RAPIDAPI_UA", "RapidAPI-Playground")
     ELEVATION_API_URL = os.environ.get("ELEVATION_API_URL", "https://api.open-elevation.com/api/v1/lookup")
     WEATHER_CACHE_MINUTES = int(os.environ.get("WEATHER_CACHE_MINUTES", "30"))
 

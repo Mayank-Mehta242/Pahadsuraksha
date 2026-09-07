@@ -5,13 +5,13 @@ import Card from "../components/Card.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import { weatherService } from "../services/weatherService.js";
 import { baseChartOptions } from "../components/charts/chartSetup.js";
-import { UTTARAKHAND_CENTER } from "../utils/constants.js";
+import { TEHRI_GARHWAL_CENTER } from "../utils/constants.js";
 
 export default function WeatherAnalyticsPage() {
   const [weather, setWeather] = useState(null);
 
   useEffect(() => {
-    weatherService.getWeather(UTTARAKHAND_CENTER.lat, UTTARAKHAND_CENTER.lng).then(setWeather);
+    weatherService.getWeather(TEHRI_GARHWAL_CENTER.lat, TEHRI_GARHWAL_CENTER.lng).then(setWeather);
   }, []);
 
   if (!weather) return <LoadingSpinner label="Loading weather data" />;
